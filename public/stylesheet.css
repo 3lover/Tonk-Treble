@@ -1,5 +1,5 @@
 body {
-  background-color: red;
+  background-image: "https://cdn.glitch.me/170e28e9-c7c2-4865-a229-d5663bd2d948%2F9cc2bad7-189c-4dd5-bbc8-84aac562f8f9.image.png?v=1638480816034";
 }
 
 h1 {
@@ -12,6 +12,7 @@ p {
   font-size: 20px;
 }
 
-.centralholder {
-  background-color: blue;
+.central-holder {
+  background-color: white;
+  border-radius: 5px;
 }
