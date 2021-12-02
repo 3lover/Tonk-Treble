@@ -1,5 +1,5 @@
 body {
-  background-color: lightblue;
+  background-color: red;
 }
 
 h1 {
@@ -10,4 +10,8 @@ h1 {
 p {
   font-family: verdana;
   font-size: 20px;
+}
+
+.centralholder {
+  background-color: blue;
 }

@@ -2,9 +2,9 @@
   "name": "socketio-chat",
   "version": "1.0.0",
   "description": "A node js chat app",
-  "main": "server/index.js",
+  "main": "index.js",
   "scripts": {
-    "start": "node server/index.js"
+    "start": "node index.js"
   },
   "dependencies": {
     "express": "^4.17.1",
