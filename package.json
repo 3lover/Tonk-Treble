@@ -1,0 +1,19 @@
+{
+  "name": "socketio-chat",
+  "version": "1.0.0",
+  "description": "A node js chat app",
+  "main": "server/index.js",
+  "scripts": {
+    "start": "node server/index.js"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "socket.io": "*"
+  },
+  "keywords": [
+    "node",
+    "express",
+    "chat"
+  ],
+  "license": "MIT"
+}
