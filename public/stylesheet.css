@@ -1,5 +1,6 @@
 body {
-  background-image: "https://cdn.glitch.me/170e28e9-c7c2-4865-a229-d5663bd2d948%2F9cc2bad7-189c-4dd5-bbc8-84aac562f8f9.image.png?v=1638480816034";
+  background-image: url("https://cdn.glitch.me/170e28e9-c7c2-4865-a229-d5663bd2d948%2F9cc2bad7-189c-4dd5-bbc8-84aac562f8f9.image.png?v=1638480816034");
+  background-size: cover;
 }
 
 h1 {
@@ -15,4 +16,10 @@ p {
 .central-holder {
   background-color: white;
   border-radius: 5px;
+  top: 50%;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+  position: absolute;
+  width: 70%;
+  height: 50%;
 }
