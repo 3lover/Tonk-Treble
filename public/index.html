@@ -3,21 +3,18 @@
 <head>
   <link rel="stylesheet" href="stylesheet.css">
   <title>Testing Server</title>
-  <script src="util.js"></script>
 </head>
 <body>
-  <div id = "main-menu">
-    <div class="center-container">
-      <div class="top-text">
-        Tonk Treble Remastered
-      </div>
-      <button onclick="toggleElements([], ['main-menu'])">
-        Click me!
-      </button>
+  <div class="center-container">
+    <div id="main-menu">
+      <div class="top-text">Tonk Treble Remastered</div>
+      <button style="margin:auto; width: 80%; height: 8" onclick="toggleElements([], ['main-menu'])">Host Lobby</button>
+      <button onclick="toggleElements([], ['main-menu'])">Join Lobby</button>
     </div>
   </div>
   <script src="https://code.jquery.com/jquery-2.2.2.min.js"></script>
   <script src="/socket.io/socket.io.js"></script>
   <script src="/main.js"></script>
+  <script src="/util.js"></script>
 </body>
 </html>
