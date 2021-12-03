@@ -43,6 +43,12 @@ button {
   width: 20%;
   height: 20%;
   background-color: grey;
+  position: absolute;
+  left: 50%;
+  -ms-transform: translateX(-50%);
+  transform: translateX(-50%);
+  color: black;
+  font-size: 60px;
 }
 button:hover {
   background-color: #8c8c8c;
