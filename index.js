@@ -11,3 +11,12 @@ server.listen(port, function () {
 
 // Routing
 app.use(express.static('public'));
+
+io.on("connection", socket => {
+  socket.emit("message", "You Connected");
+  console.log("new user connected")
+  
+  socket.on('disconnect', () => {
+    io.emit("message", "A User Has Left");
+  });
+});
