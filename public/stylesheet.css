@@ -33,6 +33,7 @@ p {
   position: absolute;
   width: 80%;
   height: 80%;
+  overflow: hidden;
 }
 
 button {
