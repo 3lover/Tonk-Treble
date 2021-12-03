@@ -44,3 +44,6 @@ button {
   height: 20%;
   background-color: grey;
 }
+button:hover {
+  background-color: #8c8c8c;
+}
