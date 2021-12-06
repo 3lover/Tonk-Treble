@@ -1,24 +1,8 @@
 /* global io */
-const socket = io();
-
-let Clients = [];
-class Client {
-  constructor(room) {
-    this.room = room;
-    this.host = false;
-  }
-}
+//initialize the socket
+let socket = io();
 
 function joinlobby(room) {
-  document.getElementById("main-menu").innerHTML = "g"
+  document.getElementById("testing").innerHTML = "g";
   //socket.emit("userJoined", room)
-}
-
-function checkLobbyUsers(room) {
-  let users = 0;
-  for (let i in Clients) {
-    let c = Clients[i];
-    if (c.room === room) users++;
-  }
-  return users;
 }
