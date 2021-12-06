@@ -11,7 +11,7 @@
 </head>
 <body>
   <div class="center-container">
-    <form action="lobbymanager">
+    <form action="lobbymanager.js">
       <div class="top-text" id="testing">Nothing Recieved</div>
     <select style="width:80%; text-align: center"  id="server">
       <option value="0" selected>Server 1 (0)</option>
@@ -19,7 +19,7 @@
       <option value="2">Server 3 (0)</option>
       <option value="D">Developer</option>
     </select>
-    <button style="top:50%; width:80%" onclick="joinlobby(document.getElementById('server').value)">Join Lobby</button>
+    <button type = "submit" style="top:50%; width:80%">Join Lobby</button>
     </form>
   </div>
   <script src="https://code.jquery.com/jquery-2.2.2.min.js"></script>
