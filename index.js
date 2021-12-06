@@ -18,6 +18,12 @@ io.on("connection", socket => {
   socket.emit("message", "You Connected");
   socket.broadcast.emit("message", "A new user has joined");
   console.log("new user connected")
+  
+  // when a client joins a room let us know
+  socket.on("userJoined", room => {
+    console.log("recieved from " + room)
+  });
+  
   // when a client disconnects broadcast to all other clients
   socket.on('disconnect', () => {
     io.emit("message", "A User Has Left");

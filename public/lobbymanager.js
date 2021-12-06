@@ -10,10 +10,8 @@ class Client {
 }
 
 function joinlobby(room) {
-  let c = new Client(room);
-  if (checkLobbyUsers() === 1) c.host = true;
-  Clients.push(c);
-  socket.emit("userJoined", {room: room, })
+  document.getElementById("main-menu").innerHTML = "g"
+  //socket.emit("userJoined", room)
 }
 
 function checkLobbyUsers(room) {
