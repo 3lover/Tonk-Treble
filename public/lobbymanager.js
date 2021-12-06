@@ -3,6 +3,6 @@
 let socket = io();
 
 function joinlobby(room) {
-  document.getElementById("testing").innerHTML = "g";
-  //socket.emit("userJoined", room)
+  document.getElementById("testing").innerHTML = "Script Running";
+  socket.emit("userJoined", room);
 }
