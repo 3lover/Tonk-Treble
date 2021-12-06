@@ -23,18 +23,17 @@
           <option value="D">Developer</option>
         </select>
         <button style="top:45%; width:80%" type="submit">Join Lobby</button>
-        <button style="top:70%; width:80%" onclick="toggleElements([''], [''])">Prefered Settings</button>
+        <button style="top:70%; width:80%" onclick="toggleElements(['clientoptions'], ['mainmenu'])">Prefered Settings</button>
       </div>
 <!-- individual rules, in creative mode can differ person to person -->
       <div id="clientoptions" style="display:none">
-        <div class="top-text" id="testing">Tonk Treble</div>
+        <div class="top-text" id="testing">Client Options</div>
         <select style="top:20%; width:80%; text-align: center"  id="server">
           <option value="0" selected>Server 1</option>
           <option value="1">Server 2</option>
           <option value="2">Server 3</option>
           <option value="D">Developer</option>
         </select>
-        <button style="top:45%; width:80%" type="submit">Join Lobby</button>
         <button style="top:70%; width:80%" onclick="toggleElements([''], [''])">Prefered Settings</button>
       </div>
 <!-- lobby rules, sets the basis for the whole lobby and are used if hosting -->
@@ -46,7 +45,6 @@
           <option value="2">Server 3</option>
           <option value="D">Developer</option>
         </select>
-        <button style="top:45%; width:80%" type="submit">Join Lobby</button>
         <button style="top:70%; width:80%" onclick="toggleElements()">Prefered Settings</button>
       </div>
     </form>
