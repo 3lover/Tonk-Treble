@@ -13,18 +13,19 @@
   <div class="center-container">
     <div id="main-menu">
       <div class="top-text">Tonk Treble Remastered</div>
-    <select style="width:80%"  id="server">
+    <select style="width:80%; text-align: center"  id="server">
       <option value="0" selected>Server 1 (0)</option>
       <option value="1">Server 2 (0)</option>
       <option value="2">Server 3 (0)</option>
       <option value="D">Developer</option>
     </select>
-    <button style="top:50%; width:80%" id="joinBtn">Join Lobby</button>
+    <button style="top:50%; width:80%" onclick="joinlobby(document.getElementById('server').value)">Join Lobby</button>
     </div>
   </div>
   <script src="https://code.jquery.com/jquery-2.2.2.min.js"></script>
   <script src="/socket.io/socket.io.js"></script>
   <script src="/main.js"></script>
   <script src="/util.js"></script>
+  <script src="/lobbymanager.js"></script>
 </body>
 </html>
