@@ -75,7 +75,7 @@ select {
   color: black;
   font-size: 60px;
 }
-select select {
+select:after {
   cursor: pointer;
 }
 select:hover {
