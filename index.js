@@ -10,7 +10,7 @@ let players = [0, 0, 0, 0];
 
 // listen and log when a client connects
 server.listen(port, function () {
-  console.log('Server listening at port %d', port);
+  console.log('Server listening at port ' + port);
 });
 
 // find our files
