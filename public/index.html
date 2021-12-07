@@ -15,7 +15,7 @@
     <form action="tankgame.html">
 <!-- the starting screen -->
       <div id="mainmenu">
-        <div class="top-text" id="testing">Tonk Treble</div>
+        <div class="top-text" id="testing" style="display:block">Tonk Treble</div>
         <select style="top:20%; width:80%; text-align: center"  id="server">
           <option value="0" selected>Server 1</option>
           <option value="1">Server 2</option>
@@ -23,7 +23,7 @@
           <option value="D">Developer</option>
         </select>
         <button style="top:45%; width:80%" type="submit">Join Lobby</button>
-        <button style="top:70%; width:80%" onclick="toggleElements(['clientoptions'], ['mainmenu'])">Prefered Settings</button>
+        <button style="top:70%; width:80%" type="button" onclick="toggleElements(['clientoptions'], ['mainmenu'])">Prefered Settings</button>
       </div>
 <!-- individual rules, in creative mode can differ person to person -->
       <div id="clientoptions" style="display:none">
