@@ -12,6 +12,9 @@ h1 {
   color: black;
   text-align: center;
   font-size: 90px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
 }
 
 p {
@@ -37,6 +40,7 @@ p {
 }
 
 button {
+  cursor: pointer;
   border-radius: 5px;
   border-color: black;
   border-width: 5px;
@@ -56,6 +60,7 @@ button:hover {
 }
 
 select {
+  cursor: pointer;
   border-radius: 5px;
   border-color: black;
   border-width: 5px;
@@ -69,6 +74,9 @@ select {
   transform: translateX(-50%);
   color: black;
   font-size: 60px;
+}
+select select {
+  cursor: pointer;
 }
 select:hover {
   background-color: #8c8c8c;
