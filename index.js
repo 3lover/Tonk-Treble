@@ -16,11 +16,8 @@ server.listen(port, function () {
 // find our files
 app.use(express.static('public'));
 
-// when a client connects broadcast to all other clients
+// when a client connects
 io.on("connection", socket => {
-  socket.emit("message", "You Connected");
-  socket.broadcast.emit("message", "A new user has joined");
-  console.log("new user connected")
   
   // when a client joins a room let us know
   socket.on("userJoined", room => {
@@ -28,7 +25,13 @@ io.on("connection", socket => {
     console.log("player joined from " + room + ". Now there are " + players[room] + " players;")
   });
   
-  // when a client disconnects broadcast to all other clients
+  // when a client leaves a room let us know and update
+  socket.on("userLeft", room => {
+    players[room]--;
+    console.log("a player has left room " + room + ". " + players[room] + " players remain;")
+  });
+  
+  // when a client disconnects check if they are in a room
   socket.on('disconnect', () => {
     io.emit("message", "A User Has Left");
   });
