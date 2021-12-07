@@ -1,9 +1,12 @@
 // setup server and ports
-var express = require('express');
-var app = express();
-var server = require('http').createServer(app);
-var io = require('socket.io')(server);
-var port = process.env.PORT || 3000;
+const express = require('express');
+const app = express();
+const server = require('http').createServer(app);
+const io = require('socket.io')(server);
+const port = process.env.PORT || 3000;
+
+//initialize player counts on each server
+let players = [0, 0, 0, 0];
 
 // listen and log when a client connects
 server.listen(port, function () {
@@ -21,7 +24,8 @@ io.on("connection", socket => {
   
   // when a client joins a room let us know
   socket.on("userJoined", room => {
-    console.log("recieved from " + room)
+    players[room]++;
+    console.log("player joined from " + room + ". Now there are " + players[room] + " players;")
   });
   
   // when a client disconnects broadcast to all other clients

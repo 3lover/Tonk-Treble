@@ -1,8 +1,12 @@
 /* global io */
-//initialize the socket
+
+function dostuff() {
+//use the socket to send a message
 let socket = io();
+}
 
 function joinlobby(room) {
-  document.getElementById("testing").innerHTML = "Script Running";
+  //let the server know a user joined
+  let socket = io();
   socket.emit("userJoined", room);
 }
