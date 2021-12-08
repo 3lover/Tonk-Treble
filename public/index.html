@@ -12,7 +12,7 @@
    </head>
    <body>
       <!-- the main display -->
-      <div class="center-container">
+      <div class="center-container" id="centerContain">
          <!-- the starting screen -->
          <div id="mainmenu">
             <div class="top-text">Tonk Treble</div>
@@ -22,7 +22,7 @@
                <option value="2">Server 3</option>
                <option value="3">Developer</option>
             </select>
-            <button style="top:45%; width:80%" onclick="joinlobby(document.getElementById('server').value)">Join Lobby</button>
+            <button style="top:45%; width:80%" onclick="toggleElements(['gamemenu'], ['centerContain']); joinlobby(document.getElementById('server').value)">Join Lobby</button>
             <button style="top:70%; width:80%" onclick="toggleElements(['clientoptions'], ['mainmenu'])">Prefered Settings</button>
          </div>
          <!-- individual rules, in creative mode can differ person to person -->
@@ -33,6 +33,13 @@
          <div id="hostoptions" style="display:none">
             <div class="top-text" style="cursor: pointer;" onclick="toggleElements(['clientoptions'], ['hostoptions'])">Host Options ></div>
          </div>
+      </div>
+      <!-- individual rules, in creative mode can differ person to person -->
+      <div id="gamemenu" style="display:none">
+          <div class="top-bar">
+            stuff will be here
+          </div>
+          <canvas height="500" width="500" style="border-style:solid; border-width:5px"></canvas>
       </div>
       <script src="https://code.jquery.com/jquery-2.2.2.min.js"></script>
       <script src="/socket.io/socket.io.js"></script>

@@ -39,6 +39,21 @@ p {
   overflow: hidden;
 }
 
+.top-bar {
+  margin: auto;
+  background-color: white;
+  border-radius: 5px;
+  border-color: black;
+  border-width: 5px;
+  border-style: solid;
+  left: -%;
+  top: 0%;
+  position: absolute;
+  width: 110%;
+  height: 10%;
+  overflow: hidden;
+}
+
 button {
   cursor: pointer;
   border-radius: 5px;
