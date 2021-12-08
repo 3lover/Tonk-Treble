@@ -16,3 +16,9 @@ function joinlobby(room) {
   let socket = io();
   socket.emit("userJoined", room);
 }
+// emit when a player leaves
+function leavelobby(room) {
+  //let the server know a user joined
+  let socket = io();
+  socket.emit("userLeft", room);
+}
