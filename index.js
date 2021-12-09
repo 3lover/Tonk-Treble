@@ -16,8 +16,19 @@ server.listen(port, function () {
 // find our files
 app.use(express.static('public'));
 
+
+// the entity class
+class Entity {
+  // get if it is bound to a client, the type of entity it is, and 
+  constructor(client = null, type = "t") {
+    
+  }
+}
+
 // when a client connects
 io.on("connection", socket => {
+  
+  new Entity(socket.id, "t");
   
   // when a client joins a room let us know
   socket.on("userJoined", room => {
