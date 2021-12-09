@@ -37,7 +37,7 @@ class Entity {
 
 // when a client connects
 io.on("connection", socket => {
-  
+
   // when a client joins a room let us know
   socket.on("userJoined", room => {
     // create a room object for the joined client and take note
@@ -61,7 +61,6 @@ io.on("connection", socket => {
   
   // when a client disconnects check if they are in a room
   socket.on('disconnect', () => {
-    console.log("User left. ID: " + socket.id + " - Entities Left: " + entities.length)
     // check if we have a player instance and if so remove it
     for (let i in entities) {
       if (entities[i].client === socket.id) {
@@ -70,5 +69,6 @@ io.on("connection", socket => {
         break;
       }
     }
+    console.log("User left. ID: " + socket.id + " - Entities Left: " + entities.length)
   });
 });
