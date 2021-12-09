@@ -25,8 +25,8 @@ app.use(express.static('public'));
 
 // the entity class
 class Entity {
-  // set if it is bound to a client and the type of entity it is
-  constructor(client = null, type = "t") {
+  // set if it is bound to a client, the lobby, and the type of entity it is
+  constructor(client = null, lobby = 0, type = "t") {
     this.x = Math.floor(Math.random() * basesize);
     this.y = Math.floor(Math.random() * basesize);
   }
@@ -46,15 +46,20 @@ io.on("connection", socket => {
   
   // when a client leaves a room let us know and update
   socket.on("userLeft", room => {
-    players[room]--;
+    players[entities[entities.indexOf(socket.id)].lobby]--;
     entities.splice(entities.indexOf(socket.id), 1);
     console.log("a player has left room " + room + ". " + players[room] + " players remain;")
   });
   
   // when a client disconnects check if they are in a room
   socket.on('disconnect', () => {
-    players[room]--;
-    entities.splice(entities.indexOf(socket.id), 1);
-    console.log("message", "A User Has Left, " + entities.length);
+    console.log("A User Has Left, " + entities.length + " " + socket.id);
+    // check if we have a player instance and if so remove it
+    //if (entities.indexOf(socket.id) == undefined) 
+      console.log("entity id: " + entities.indexOf(socket.id));
+    //if (entities[entities.indexOf(socket.id)] == undefined) 
+    console.log("entity: " + entities[entities.indexOf(socket.id)]);//return;
+    //players[entities[entities.indexOf(socket.id)].lobby]--;
+    //entities.splice(entities.indexOf(socket.id), 1);
   });
 });
