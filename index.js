@@ -50,7 +50,6 @@ io.on("connection", socket => {
   // when a client leaves a room let us know and update
   socket.on("userLeft", room => {
     for (let i in entities) {
-      console.log(" -- " + entities[i].client)
       if (entities[i].client === socket.id) {
         players[entities[i].lobby]--;
         entities.splice(i, 1);
