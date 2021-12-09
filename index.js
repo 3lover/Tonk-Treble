@@ -45,7 +45,6 @@ io.on("connection", socket => {
     let e = new Entity(socket.id, room, "t");
     entities.push(e);
     console.log("Room join. ID: " + socket.id + " - Entities now: " + entities.length + " - Room: " + room);
-    socket.disconnect(true);
   });
   
   // when a client leaves a room let us know and update
