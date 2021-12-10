@@ -47,6 +47,14 @@ io.on("connection", socket => {
     console.log("Room join. ID: " + socket.id + " - Entities now: " + entities.length + " - Room: " + room);
   });
   
+  // messages
+  socket.on("test", room => {
+    // create a room object for the joined client and take note
+    players[room]++;
+    let e = new Entity(socket.id, room, "t");
+    entities.push(e);
+  });
+  
   // when a client leaves a room let us know and update
   socket.on("userLeft", room => {
     for (let i in entities) {
