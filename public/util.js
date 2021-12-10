@@ -1,7 +1,7 @@
 /* global io */
+var socket = io();
 
 // shows and hides html elements
-var socket = io;
 function toggleElements(show = [], hide = []) {
   for (let i in show) {
     document.getElementById(show[i]).style.display = "block";
