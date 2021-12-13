@@ -40,7 +40,7 @@ class Entity {
     this.height = 5000;
     this.rotation = 0;
     this.color = "#" + Math.floor(Math.random()*16777215).toString(16);
-    console.log(this.color)
+    this.vectors[0, 0, 0, 0, 0];
   }
 }
 
@@ -58,6 +58,25 @@ io.on("connection", socket => {
     let e = new Entity(socket.id, room, "t");
     if (players[room] == 1) e.host = true;
     entities.push(e);
+  });
+  
+  // when a client presses a button in game recieve it here and see if we need to do stuff
+  socket.on("keydown", key => {
+    for (let i in entities) {
+      let e = entities[i].client;
+      if (e !== socket.id) continue;
+      if (key == 38) e.vectors[0] = 1;
+      if (key == 40) e.vectors[2] = 1;
+    }
+  });
+  // same but release stuff
+  socket.on("keyup", key => {
+    for (let i in entities) {
+      let e = entities[i].client;
+      if (e !== socket.id) continue;
+      if (key == 38) e.vectors[0] = 0;
+      if (key == 40) e.vectors[2] = 0;
+    }
   });
   
   // when a client leaves a room remove their player
