@@ -50,7 +50,7 @@ socket.on("render", (data) => {
   for (let i in data) {
     let shape = data[i];
     if (shape.sides == 4) {
-      ctx.rect(shape.x, shape.y, shape.width, shape.height);
+      ctx.rect(shape.x, sh--ape.y, shape.width, shape.height);
       ctx.fill();
     }
   }
