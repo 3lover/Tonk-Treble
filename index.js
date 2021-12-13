@@ -38,6 +38,11 @@ class Entity {
 // when a client connects
 io.on("connection", socket => {
 
+  // when we recieve a message log it
+  socket.on("message", data => {
+    console.log(`'${data}' recieved`)
+  });
+  
   // when a client joins a room let us know
   socket.on("userJoined", room => {
     // create a room object for the joined client and take note
