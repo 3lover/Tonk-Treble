@@ -122,10 +122,8 @@ function mainLoop() {
     });
     for (let i in objects) {
       let e = objects[i];
-      //e.y += e.vectors[0] ? -e.speed : e.vectors[2] ? e.speed : 0;
-      //e.x += e.vectors[1] ? -e.speed : e.vectors[3] ? e.speed : 0;
       e.x += e.vectors[0] ? Math.sin(e.rotation) * 100 : e.vectors[2] ? -Math.sin(e.rotation) * 100 : 0;
-      e.y += e.vectors[0] ? Math.cos(e.rotation) * 100 : e.vectors[2] ? -Math.cos(e.rotation) * 100 : 0;
+      e.y += e.vectors[0] ? -Math.cos(e.rotation) * 100 : e.vectors[2] ? Math.cos(e.rotation) * 100 : 0;
       e.rotation += e.vectors[1] ? -e.turnspeed : e.vectors[3] ? e.turnspeed : 0;
     }
     
@@ -134,7 +132,8 @@ function mainLoop() {
     for (let j = 0; j < objects.length; j++) {
       let client = objects[j];
       renderdata.push({
-        sides: 4,
+        type: 0,
+        subclass: 0,
         x: client.x,
         y: client.y,
         width: client.width,
