@@ -81,17 +81,21 @@ io.on("connection", socket => {
   });
 });
 
-// run the server side of it for each lobby
-for (let i = 0; i < players.length; i++) {
-  let renderdata = [];
-  for (let j = 0; j < players[i]; j++) {
-    renderdata.push({
-      sides: 4,
-      x: 50,
-      y: 50 + (j * 100),
-      width: 50,
-      height: 50
-    });
+function mainLoop() {
+  // runs 40 times a second and runs the servers
+  for (let i = 0; i < players.length; i++) {
+    let renderdata = [];
+    for (let j = 0; j < players[i]; j++) {
+      renderdata.push({
+        sides: 4,
+        x: 50,
+        y: 50 + (j * 100),
+        width: 50,
+        height: 50
+      });
+    }
+    io.to(i).emit("render", renderdata);
   }
-  io.to(i)
 }
+
+setInterval(mainLoop, 25);

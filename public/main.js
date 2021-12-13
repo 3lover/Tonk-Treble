@@ -33,3 +33,7 @@ document.getElementById("leavelobbybtn").onclick = () => {
   socket.emit("userLeft", document.getElementById("server").value);
   toggleElements(['mainmenu', 'centerContain'], ['gamemenu']);
 }
+
+socket.on("render", (data) => {
+  alert("yee")
+})
