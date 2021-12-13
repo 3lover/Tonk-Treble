@@ -36,9 +36,11 @@ class Entity {
     // game values
     this.x = Math.floor(Math.random() * c.BASESIZE);
     this.y = Math.floor(Math.random() * c.BASESIZE);
-    this.width = 40;
-    this.height = 40;
+    this.width = 5000;
+    this.height = 5000;
     this.rotation = 0;
+    this.color = "#" + Math.floor(Math.random()*16777215).toString(16);
+    console.log(this.color)
   }
 }
 
@@ -99,7 +101,8 @@ function mainLoop() {
         x: client.x,
         y: client.y,
         width: client.width,
-        height: client.height
+        height: client.height,
+        color: client.color
       });
     }
     io.to(i.toString()).emit("render", renderdata);

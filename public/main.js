@@ -46,11 +46,13 @@ document.getElementById("leavelobbybtn").onclick = () => {
 socket.on("render", (data) => {
   ctx.clearRect(0, 0, WIDTH, HEIGHT);
   ctx.beginPath();
-  // the x axis length is 1000, the y is 800, values scaled and put along them
+  // the ratio is 10000 = the canvas height for drawing. 0 is center and goes through -5000 to 5000
   for (let i in data) {
     let shape = data[i];
+    let ratio = canvas.height / 10000;
     if (shape.sides == 4) {
-      ctx.rect(shape.x, sh--ape.y, shape.width, shape.height);
+      ctx.fillStyle = shape.color;
+      ctx.rect(shape.x * ratio, shape.y * ratio, shape.width * ratio, shape.height * ratio);
       ctx.fill();
     }
   }
