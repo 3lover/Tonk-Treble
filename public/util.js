@@ -8,3 +8,8 @@ exports.toggleElements = (show = [], hide = []) => {
     document.getElementById(hide[i]).style.display = "none";
   }
 }
+
+// logs stuff with slick style
+exports.log = (data, color) => {
+  
+}

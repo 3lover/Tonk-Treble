@@ -5,6 +5,9 @@ const server = require('http').createServer(app);
 const io = require('socket.io')(server);
 const port = process.env.PORT || 3000;
 
+// get our personal requires
+const util = require('./public/util.js');
+
 // initialize player counts on each server
 let players = [0, 0, 0, 0];
 
@@ -37,7 +40,6 @@ class Entity {
 
 // when a client connects
 io.on("connection", socket => {
-
   // when we recieve a message log it
   socket.on("message", data => {
     console.log(`'${data}' recieved from ${socket.id}`)
@@ -68,6 +70,7 @@ io.on("connection", socket => {
     for (let i in entities) {
       if (entities[i].client === socket.id) {
         players[entities[i].lobby]--;
+        console.log(`${players[entities[i].lobby]} remaining in room ${entities[i].lobby}`);
         entities.splice(i, 1);
         break;
       }
