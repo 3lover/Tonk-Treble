@@ -125,8 +125,19 @@ function collide(obj1 = {shape: 4, x: 0, y: 0, w: 0, h: 0, a: 0}, obj2 = {shape:
   if ((obj1.shape == 4 && obj2.shape == 0) || (obj1.shape == 0 && obj2.shape == 4)) {
     let rect = obj1.shape == 4 ? obj1 : obj2,
         circle = obj1.shape == 4 ? obj2 : obj1;
-    // check if any of the 4 sides intersect the circle, or if the circle orgin is within the rectangle
-    if ()
+    // from stack overflow
+    circle.x = Math.abs(circle.x - rect.x);
+    circle.y = Math.abs(circle.y - rect.y);
+
+    if (circle.x > (rect.w/2 + circle.r)) { return false; }
+    if (circle.y > (rect.h/2 + circle.r)) { return false; }
+
+    if (circle.x <= (rect.w/2)) { return true; } 
+    if (circle.y <= (rect.h/2)) { return true; }
+
+    let cornerDistance = Math.sqrt( (circle.x - rect.width/2)**2 + (circle.y - rect.height/2)**2 );
+
+    return (cornerDistance <= (circle.r^2));
   }
   // circle~circle collide
   if (obj1.shape == 0 && obj2.shape == 0);
