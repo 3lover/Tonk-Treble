@@ -36,10 +36,11 @@ class Entity {
     // game values
     this.x = Math.floor(Math.random() * c.BASESIZE);
     this.y = Math.floor(Math.random() * c.BASESIZE);
-    this.width = 5000;
+    this.width = 4000;
     this.height = 5000;
     this.rotation = 0;
     this.speed = 100;
+    this.turnspeed = 3;
     this.color = "#" + Math.floor(Math.random()*16777215).toString(16);
     this.vectors = [0, 0, 0, 0, 0];
   }
@@ -121,8 +122,11 @@ function mainLoop() {
     });
     for (let i in objects) {
       let e = objects[i];
-      e.y += e.vectors[0] ? -e.speed : e.vectors[2] ? e.speed : 0;
-      e.x += e.vectors[1] ? -e.speed : e.vectors[3] ? e.speed : 0;
+      //e.y += e.vectors[0] ? -e.speed : e.vectors[2] ? e.speed : 0;
+      //e.x += e.vectors[1] ? -e.speed : e.vectors[3] ? e.speed : 0;
+      e.x += e.vectors[0] ? -Math.sin(e.rotation) * 100 : e.vectors[2] ? Math.sin(e.rotation) * 100 : 0;
+      e.y += e.vectors[0] ? -Math.cos(e.rotation) * 100 : e.vectors[2] ? Math.cos(e.rotation) * 100 : 0;
+      e.rotation += e.vectors[1] ? -e.turnspeed : e.vectors[3] ? e.turnspeed : 0;
     }
     
     // send the render data to the clients
@@ -135,7 +139,8 @@ function mainLoop() {
         y: client.y,
         width: client.width,
         height: client.height,
-        color: client.color
+        color: client.color,
+        rotation: client.rotation
       });
     }
     io.to(l.toString()).emit("render", renderdata);
