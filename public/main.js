@@ -46,6 +46,7 @@ document.getElementById("leavelobbybtn").onclick = () => {
 socket.on("render", (data) => {
   ctx.clearRect(0, 0, WIDTH, HEIGHT);
   ctx.beginPath();
+  // the x axis length is 1000, the y is 800, values scaled and put along them
   for (let i in data) {
     let shape = data[i];
     if (shape.sides == 4) {
