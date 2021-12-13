@@ -7,12 +7,12 @@ const port = process.env.PORT || 3000;
 
 // get our personal requires
 const util = require('./public/util.js');
+const c = require('./config.json');
 
 // initialize player counts on each server
 let players = [0, 0, 0, 0];
 
 // initialize stuff
-let basesize = 1000;
 let entities = [];
 
 // listen and log when a client connects
@@ -34,8 +34,10 @@ class Entity {
     this.type = type;
     this.host = false;
     // game values
-    this.x = Math.floor(Math.random() * basesize);
-    this.y = Math.floor(Math.random() * basesize);
+    this.x = Math.floor(Math.random() * c.BASESIZE);
+    this.y = Math.floor(Math.random() * c.BASESIZE);
+    this.width = 40;
+    this.height = 40;
     this.rotation = 0;
   }
 }
@@ -87,17 +89,21 @@ function mainLoop() {
   // runs 40 times a second and runs the servers
   for (let i = 0; i < players.length; i++) {
     let renderdata = [];
-    for (let j = 0; j < players[i]; j++) {
+    let objects = entities.filter( entity => {
+      return entity.lobby == i;
+    });
+    for (let j = 0; j < objects.length; j++) {
+      let client = objects[j];
       renderdata.push({
         sides: 4,
-        x: 50,
-        y: 50 + (j * 100),
-        width: 50,
-        height: 50
+        x: client.x,
+        y: client.y,
+        width: client.width,
+        height: client.height
       });
     }
     io.to(i.toString()).emit("render", renderdata);
   }
 }
 
-setInterval(mainLoop, 25);
+setInterval(mainLoop, 100);
