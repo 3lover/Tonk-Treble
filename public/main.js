@@ -3,7 +3,12 @@
 
 // get our canvas
 const canvas = document.getElementById("canvas"),
-      ctx = canvas.getContext("2d");
+      ctx = canvas.getContext("2d"),
+      WIDTH = window.innerWidth * 5,
+      HEIGHT = window.innerHeight * 4;
+
+canvas.width = WIDTH;
+canvas.height = HEIGHT;
 
 // setting up some helper functions
 
@@ -39,11 +44,12 @@ document.getElementById("leavelobbybtn").onclick = () => {
 }
 
 socket.on("render", (data) => {
+  ctx.clearRect(0, 0, WIDTH, HEIGHT);
   ctx.beginPath();
   for (let i in data) {
     let shape = data[i];
     if (shape.sides == 4) {
-      ctx.rect(50, 50, 550, 550);
+      ctx.rect(shape.x, shape.y, shape.width, shape.height);
       ctx.fill();
     }
   }

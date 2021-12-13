@@ -58,6 +58,7 @@ io.on("connection", socket => {
   
   // when a client leaves a room remove their player
   socket.on("userLeft", room => {
+    socket.leave(room);
     for (let i in entities) {
       if (entities[i].client === socket.id) {
         players[entities[i].lobby]--;
@@ -73,6 +74,7 @@ io.on("connection", socket => {
     for (let i in entities) {
       if (entities[i].client === socket.id) {
         players[entities[i].lobby]--;
+        socket.leave(entities[i].lobby);
         util.log(`${players[entities[i].lobby]} remaining in room ${entities[i].lobby}`);
         entities.splice(i, 1);
         break;
