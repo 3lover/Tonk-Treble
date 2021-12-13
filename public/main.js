@@ -62,23 +62,27 @@ socket.on("render", (data) => {
     let shape = data[i];
     let ratio = canvas.height / 10000;
     if (shape.type == 0) {
-      // rotate the canvas and move so as 0,0 is the orgin point of the shape being drawn,
-      // then draw a rectangle half the width and height so as to make the orgin the center
+      // rotate the canvas and move so as 0,0 is the orgin point of the shape being drawn
       ctx.translate(shape.x * ratio, shape.y * ratio);
       ctx.rotate(shape.rotation);
-      ctx.beginPath();
       ctx.lineWidth = 30;
       ctx.fillStyle = shape.color;
-      ctx.rect(-shape.width/2 * ratio, -shape.height/2 * ratio, shape.width * ratio, shape.height * ratio);
-      ctx.fill();
-      ctx.stroke();
+      
       // draw the guns in accordance the the tank subclass
       ctx.beginPath();
       switch (shape.subclass) {
         case 0:
-          ctx.rect(-shape.width/4 * ratio, -shape.height/2 * ratio, shape.width/2 * ratio, shape.height * 1.2 * ratio);
+          ctx.rect(-shape.width/4 * ratio, -shape.height/2 * ratio, shape.width/2 * ratio, shape.height * -0.2 * ratio);
           break;
       }
+      ctx.stroke();
+      ctx.fill();
+      
+      // draw the tank body
+      ctx.beginPath();
+      ctx.rect(-shape.width/2 * ratio, -shape.height/2 * ratio, shape.width * ratio, shape.height * ratio);
+      ctx.fill();
+      ctx.stroke();
       
       // reset canvas
       ctx.rotate(-shape.rotation);

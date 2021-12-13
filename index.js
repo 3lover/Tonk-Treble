@@ -112,6 +112,10 @@ io.on("connection", socket => {
   });
 });
 
+function collisions(obj1 = {shape: 4, x: 0, y: 0, w: 0, h: 0}, obj2 = {}) {
+  
+}
+
 function mainLoop() {
   // runs 40 times a second and runs the servers
   for (let l = 0; l < players.length; l++) {
@@ -122,8 +126,8 @@ function mainLoop() {
     });
     for (let i in objects) {
       let e = objects[i];
-      e.x += e.vectors[0] ? Math.sin(e.rotation) * 100 : e.vectors[2] ? -Math.sin(e.rotation) * 100 : 0;
-      e.y += e.vectors[0] ? -Math.cos(e.rotation) * 100 : e.vectors[2] ? Math.cos(e.rotation) * 100 : 0;
+      e.x += e.vectors[0] ? Math.sin(e.rotation) * e.speed : e.vectors[2] ? -Math.sin(e.rotation) * e.speed : 0;
+      e.y += e.vectors[0] ? -Math.cos(e.rotation) * e.speed : e.vectors[2] ? Math.cos(e.rotation) * e.speed : 0;
       e.rotation += e.vectors[1] ? -e.turnspeed : e.vectors[3] ? e.turnspeed : 0;
     }
     
