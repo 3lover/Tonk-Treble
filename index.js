@@ -114,17 +114,20 @@ io.on("connection", socket => {
 
 // return true if two objects within the parameters overlap
 function collide(obj1 = {shape: 4, x: 0, y: 0, w: 0, h: 0, a: 0}, obj2 = {shape: 0, x: 0, y: 0, r: 0}) {
-  // square square collide - the easy one
+  // square~square collide
   if (obj1.shape == 4 && obj2.shape == 4) {
-    //check if obj1 collides along x axis. if not check if y axis collides and if not that either return false
-    if (obj1.x - obj1.w/2 > obj2.x)
-      if (obj1)
-        return false;
-    return true;
+    //check if obj1 collides along x and y axis. If neither collide that means there are no collisions
+    if (obj1.x - obj1.w/2 < obj2.x + obj2.w/2 || obj1.x + obj1.w/2 > obj2.x - obj2.w/2) return true;
+    if (obj1.y - obj1.h/2 < obj2.y + obj2.h/2 || obj1.y + obj1.h/2 > obj2.y - obj2.h/2) return true;
+    return false;
   }
-  // square circle collide - the difficult one
-  if (obj1.shape == 4 && obj2.shape == 0);
-  // circle circle collide - the weird one
+  // square~circle collide
+  if ((obj1.shape == 4 && obj2.shape == 0) || (obj1.shape == 0 && obj2.shape == 4)) {
+    let rect = obj1.shape == 4 ? obj1 : obj2,
+        circle = obj1.shape == 4 ? obj2 : obj1;
+    // check if any of the 4 sides intersect the circle, or if the circle orgin is within the rectangle
+  }
+  // circle~circle collide
   if (obj1.shape == 0 && obj2.shape == 0);
 }
 
