@@ -40,7 +40,7 @@ class Entity {
     this.height = 5000;
     this.rotation = 0;
     this.speed = 100;
-    this.turnspeed = 3;
+    this.turnspeed = 0.1;
     this.color = "#" + Math.floor(Math.random()*16777215).toString(16);
     this.vectors = [0, 0, 0, 0, 0];
   }
@@ -124,8 +124,8 @@ function mainLoop() {
       let e = objects[i];
       //e.y += e.vectors[0] ? -e.speed : e.vectors[2] ? e.speed : 0;
       //e.x += e.vectors[1] ? -e.speed : e.vectors[3] ? e.speed : 0;
-      e.x += e.vectors[0] ? -Math.sin(e.rotation) * 100 : e.vectors[2] ? Math.sin(e.rotation) * 100 : 0;
-      e.y += e.vectors[0] ? -Math.cos(e.rotation) * 100 : e.vectors[2] ? Math.cos(e.rotation) * 100 : 0;
+      e.x += e.vectors[0] ? Math.sin(e.rotation) * 100 : e.vectors[2] ? -Math.sin(e.rotation) * 100 : 0;
+      e.y += e.vectors[0] ? Math.cos(e.rotation) * 100 : e.vectors[2] ? -Math.cos(e.rotation) * 100 : 0;
       e.rotation += e.vectors[1] ? -e.turnspeed : e.vectors[3] ? e.turnspeed : 0;
     }
     
