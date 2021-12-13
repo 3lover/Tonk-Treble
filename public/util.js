@@ -9,8 +9,7 @@ exports.toggleElements = (show = [], hide = []) => {
   }
 }
 
-// logs stuff with slick style... IDK where I was going
-
+// logs stuff with slick style... IDK where I was going with this tbh
 exports.log = (data) => {
   console.log(data);
 }
