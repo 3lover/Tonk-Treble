@@ -1,6 +1,10 @@
 /*global io*/
 "use strict"
 
+// get our canvas
+const canvas = document.getElementById("canvas"),
+      ctx = canvas.getContext("2d");
+
 // setting up some helper functions
 
 // shows and hides html elements
@@ -35,5 +39,12 @@ document.getElementById("leavelobbybtn").onclick = () => {
 }
 
 socket.on("render", (data) => {
-  alert("yee")
+  ctx.beginPath();
+  for (let i in data) {
+    let shape = data[i];
+    if (shape.sides == 4) {
+      ctx.rect(50, 50, 550, 550);
+      ctx.fill();
+    }
+  }
 })

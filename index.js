@@ -94,7 +94,7 @@ function mainLoop() {
         height: 50
       });
     }
-    io.to(i).emit("render", renderdata);
+    io.to(i.toString()).emit("render", renderdata);
   }
 }
 
