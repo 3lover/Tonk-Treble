@@ -112,12 +112,24 @@ io.on("connection", socket => {
   });
 });
 
-function collisions(obj1 = {shape: 4, x: 0, y: 0, w: 0, h: 0}, obj2 = {}) {
-  
+// return true if two objects within the parameters overlap
+function collide(obj1 = {shape: 4, x: 0, y: 0, w: 0, h: 0, a: 0}, obj2 = {shape: 0, x: 0, y: 0, r: 0}) {
+  // square square collide - the easy one
+  if (obj1.shape == 4 && obj2.shape == 4) {
+    //check if obj1 collides along x axis. if not check if y axis collides and if not that either return false
+    if (obj1.x - obj1.w/2 > obj2.x)
+      if (obj1)
+        return false;
+    return true;
+  }
+  // square circle collide - the difficult one
+  if (obj1.shape == 4 && obj2.shape == 0);
+  // circle circle collide - the weird one
+  if (obj1.shape == 0 && obj2.shape == 0);
 }
 
+// runs 40 times a second, handles movement, sending render data, and runs collision functions
 function mainLoop() {
-  // runs 40 times a second and runs the servers
   for (let l = 0; l < players.length; l++) {
     
     // get the entities in the specific lobby
