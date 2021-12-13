@@ -39,8 +39,9 @@ class Entity {
     this.width = 5000;
     this.height = 5000;
     this.rotation = 0;
+    this.speed = 100;
     this.color = "#" + Math.floor(Math.random()*16777215).toString(16);
-    this.vectors[0, 0, 0, 0, 0];
+    this.vectors = [0, 0, 0, 0, 0];
   }
 }
 
@@ -63,8 +64,8 @@ io.on("connection", socket => {
   // when a client presses a button in game recieve it here and see if we need to do stuff
   socket.on("keydown", key => {
     for (let i in entities) {
-      let e = entities[i].client;
-      if (e !== socket.id) continue;
+      let e = entities[i];
+      if (e.client !== socket.id) continue;
       if (key == 38) e.vectors[0] = 1;
       if (key == 40) e.vectors[2] = 1;
     }
@@ -72,8 +73,8 @@ io.on("connection", socket => {
   // same but release stuff
   socket.on("keyup", key => {
     for (let i in entities) {
-      let e = entities[i].client;
-      if (e !== socket.id) continue;
+      let e = entities[i];
+      if (e.client !== socket.id) continue;
       if (key == 38) e.vectors[0] = 0;
       if (key == 40) e.vectors[2] = 0;
     }
@@ -107,12 +108,20 @@ io.on("connection", socket => {
 });
 
 function mainLoop() {
-  // runs 40 times a second and runs the servers
-  for (let i = 0; i < players.length; i++) {
-    let renderdata = [];
+  // runs 10 times a second and runs the servers
+  for (let l = 0; l < players.length; l++) {
+    
+    // get the entities in the specific lobby
     let objects = entities.filter( entity => {
-      return entity.lobby == i;
+      return entity.lobby == l;
     });
+    for (let i in objects) {
+      let e = objects[i];
+      e.y += e.vectors[0] ? e.speed : e.vectors[2] ? -e.speed : 0;
+    }
+    
+    // send the render data to the clients
+    let renderdata = [];
     for (let j = 0; j < objects.length; j++) {
       let client = objects[j];
       renderdata.push({
@@ -124,7 +133,7 @@ function mainLoop() {
         color: client.color
       });
     }
-    io.to(i.toString()).emit("render", renderdata);
+    io.to(l.toString()).emit("render", renderdata);
   }
 }
 

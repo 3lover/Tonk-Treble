@@ -28,14 +28,18 @@ function toggleElements(show = [], hide = []) {
 //initialize the client connection
 const socket = io();
 
-//for testing purposes, when a key is pressed send it to the server
+// when a client presses a button send it to the server
 document.onkeydown = (e) => {
   let keycode = e.keyCode || e.which;
-  socket.emit("message", keycode);
+  //socket.emit("message", keycode);
   if (keycode == 13 && windowType == 0) document.getElementById("joinlobbybtn").click();
   else socket.emit("keydown", keycode)
 };
-v
+document.onkeyup = (e) => {
+  let keycode = e.keyCode || e.which;
+  socket.emit("message", keycode);
+  socket.emit("keyup", keycode)
+};
 
 document.getElementById("joinlobbybtn").onclick = () => {
   socket.emit("message", "user clicked join button");
