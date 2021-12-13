@@ -1,6 +1,6 @@
 
 // shows and hides html elements
-function toggleElements(show = [], hide = []) {
+exports.toggleElements = (show = [], hide = []) => {
   for (let i in show) {
     document.getElementById(show[i]).style.display = "block";
   }
