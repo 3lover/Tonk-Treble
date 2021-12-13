@@ -68,6 +68,8 @@ io.on("connection", socket => {
       if (e.client !== socket.id) continue;
       if (key == 38) e.vectors[0] = 1;
       if (key == 40) e.vectors[2] = 1;
+      if (key == 37) e.vectors[1] = 1;
+      if (key == 39) e.vectors[3] = 1;
     }
   });
   // same but release stuff
@@ -77,6 +79,8 @@ io.on("connection", socket => {
       if (e.client !== socket.id) continue;
       if (key == 38) e.vectors[0] = 0;
       if (key == 40) e.vectors[2] = 0;
+      if (key == 37) e.vectors[1] = 0;
+      if (key == 39) e.vectors[3] = 0;
     }
   });
   
@@ -108,7 +112,7 @@ io.on("connection", socket => {
 });
 
 function mainLoop() {
-  // runs 10 times a second and runs the servers
+  // runs 40 times a second and runs the servers
   for (let l = 0; l < players.length; l++) {
     
     // get the entities in the specific lobby
@@ -117,7 +121,8 @@ function mainLoop() {
     });
     for (let i in objects) {
       let e = objects[i];
-      e.y += e.vectors[0] ? e.speed : e.vectors[2] ? -e.speed : 0;
+      e.y += e.vectors[0] ? -e.speed : e.vectors[2] ? e.speed : 0;
+      e.x += e.vectors[1] ? -e.speed : e.vectors[3] ? e.speed : 0;
     }
     
     // send the render data to the clients
@@ -137,4 +142,4 @@ function mainLoop() {
   }
 }
 
-setInterval(mainLoop, 100);
+setInterval(mainLoop, 25);
