@@ -126,6 +126,7 @@ function collide(obj1 = {shape: 4, x: 0, y: 0, w: 0, h: 0, a: 0}, obj2 = {shape:
     let rect = obj1.shape == 4 ? obj1 : obj2,
         circle = obj1.shape == 4 ? obj2 : obj1;
     // check if any of the 4 sides intersect the circle, or if the circle orgin is within the rectangle
+    if ()
   }
   // circle~circle collide
   if (obj1.shape == 0 && obj2.shape == 0);
