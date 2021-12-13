@@ -40,19 +40,18 @@ io.on("connection", socket => {
 
   // when we recieve a message log it
   socket.on("message", data => {
-    console.log(`'${data}' recieved`)
+    console.log(`'${data}' recieved from ${socket.id}`)
   });
   
-  // when a client joins a room let us know
+  // when a client joins a room create a player instance
   socket.on("userJoined", room => {
-    // create a room object for the joined client and take note
+    socket.join(room);
     players[room]++;
     let e = new Entity(socket.id, room, "t");
     entities.push(e);
-    console.log("Room join. ID: " + socket.id + " - Entities now: " + entities.length + " - Room: " + room);
   });
   
-  // when a client leaves a room let us know and update
+  // when a client leaves a room remove their player
   socket.on("userLeft", room => {
     for (let i in entities) {
       if (entities[i].client === socket.id) {
@@ -61,12 +60,11 @@ io.on("connection", socket => {
         break;
       }
     }
-    console.log("Room left. ID: " + socket.id + " - Entities Left: " + entities.length + " - Room: " + room);
+    console.log(`${players[room]} remaining in room ${room}`);
   });
   
-  // when a client disconnects check if they are in a room
+  // when a client disconnects check if they are in a room and if so remove their object
   socket.on('disconnect', () => {
-    // check if we have a player instance and if so remove it
     for (let i in entities) {
       if (entities[i].client === socket.id) {
         players[entities[i].lobby]--;
@@ -74,6 +72,5 @@ io.on("connection", socket => {
         break;
       }
     }
-    console.log("User left. ID: " + socket.id + " - Entities Left: " + entities.length)
   });
 });
