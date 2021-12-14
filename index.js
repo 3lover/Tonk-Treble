@@ -42,11 +42,8 @@ class Entity {
     this.turnspeed = 0.1;
     this.color = "#" + Math.floor(Math.random()*16777215).toString(16);
     this.vectors = [0, 0, 0, 0, 0];
-    do {
-      this.x = Math.floor(Math.random() * c.BASESIZE);
-      this.y = Math.floor(Math.random() * c.BASESIZE);
-    } while (!checkLocation(this));
-    console.log(checkLocation(this));
+    this.x = Math.floor(Math.random() * c.BASESIZE);
+    this.y = Math.floor(Math.random() * c.BASESIZE);
   }
 }
 
@@ -63,6 +60,10 @@ io.on("connection", socket => {
     players[room]++;
     let e = new Entity(socket.id, room, 0);
     if (players[room] == 1) e.host = true;
+    do {
+      e.x = Math.floor(Math.random() * c.BASESIZE);
+      e.y = Math.floor(Math.random() * c.BASESIZE);
+    } while (!checkLocation(e));
     entities.push(e);
   });
   
@@ -193,6 +194,7 @@ function mainLoop() {
               if (follow.type == 1) {}
               // tank on wall collide
               if (follow.type == 2) {
+                //console.log("colliding");
                 runner.x -= runner.vectors[0] ? Math.sin(runner.rotation) * runner.speed : runner.vectors[2] ? -Math.sin(runner.rotation) * runner.speed : 0;
                 runner.y -= runner.vectors[0] ? -Math.cos(runner.rotation) * runner.speed : runner.vectors[2] ? Math.cos(runner.rotation) * runner.speed : 0;
               }
@@ -234,8 +236,10 @@ function mainLoop() {
 setInterval(mainLoop, 25);
 
     let e = new Entity(null, 1, 2);
-    e.x = 1000;
-    e.y = 1000;
+    do {
+      e.x = Math.floor(Math.random() * c.BASESIZE);
+      e.y = Math.floor(Math.random() * c.BASESIZE);
+    } while (!checkLocation(e));
     e.width = 1000;
     e.height = 1000;
     e.color = "black";
