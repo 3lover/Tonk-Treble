@@ -45,7 +45,8 @@ class Entity {
     do {
       this.x = Math.floor(Math.random() * c.BASESIZE);
       this.y = Math.floor(Math.random() * c.BASESIZE);
-    } while (checkLocation(this))
+    } while (!checkLocation(this));
+    console.log(checkLocation(this));
   }
 }
 
@@ -150,6 +151,7 @@ function collideCheck(obj1 = {shape: 4, x: 0, y: 0, w: 0, h: 0, a: 0}, obj2 = {s
 function checkLocation(e = {}, avoid = [0, 1, 2, 3]) {
   for (let i = 0; i < entities.length; i++) {
     let other = entities[i];
+    if (!avoid.includes(other.type) || other == e || other.lobby != e.lobby) continue;
     if (collideCheck({shape: e.shape, x: e.x, y: e.y, w: e.width, h: e.height, a: e.rotation}, {shape: other.shape, x: other.x, y: other.y, w: other.width, h: other.height, a: other.rotation}))
       return false;
   }
