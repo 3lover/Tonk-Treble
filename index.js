@@ -38,6 +38,7 @@ class Entity {
     this.y = Math.floor(Math.random() * c.BASESIZE);
     this.width = 4000;
     this.height = 5000;
+    this.shape = 4;
     this.rotation = 0;
     this.speed = 100;
     this.turnspeed = 0.1;
@@ -113,7 +114,7 @@ io.on("connection", socket => {
 });
 
 // return true if two objects within the parameters overlap
-function collide(obj1 = {shape: 4, x: 0, y: 0, w: 0, h: 0, a: 0}, obj2 = {shape: 0, x: 0, y: 0, r: 0}) {
+function collideCheck(obj1 = {shape: 4, x: 0, y: 0, w: 0, h: 0, a: 0}, obj2 = {shape: 0, x: 0, y: 0, r: 0}) {
   // square~square collide
   if (obj1.shape == 4 && obj2.shape == 4) {
     //check if obj1 collides along x and y axis. If neither collide that means there are no collisions
@@ -125,7 +126,7 @@ function collide(obj1 = {shape: 4, x: 0, y: 0, w: 0, h: 0, a: 0}, obj2 = {shape:
   if ((obj1.shape == 4 && obj2.shape == 0) || (obj1.shape == 0 && obj2.shape == 4)) {
     let rect = obj1.shape == 4 ? obj1 : obj2,
         circle = obj1.shape == 4 ? obj2 : obj1;
-    // from stack overflow
+    // from stack overflow, probably works?
     circle.x = Math.abs(circle.x - rect.x);
     circle.y = Math.abs(circle.y - rect.y);
 
@@ -156,6 +157,21 @@ function mainLoop() {
       e.x += e.vectors[0] ? Math.sin(e.rotation) * e.speed : e.vectors[2] ? -Math.sin(e.rotation) * e.speed : 0;
       e.y += e.vectors[0] ? -Math.cos(e.rotation) * e.speed : e.vectors[2] ? Math.cos(e.rotation) * e.speed : 0;
       e.rotation += e.vectors[1] ? -e.turnspeed : e.vectors[3] ? e.turnspeed : 0;
+      
+      // go through each entity pair one time and check for collisions
+      for (let j = i; j < objects.length; j++) {
+        let other = objects[j];
+        if (other.lobby != e.lobby) continue;
+        if (collideCheck({shape: e.shape, x: e.x, y: e.y, w: e.width, h: e.height, a: e.rotation}, {shape: other.shape, x: other.x, y: other.y, w: other.width, h: other.height, a: other.rotation}))
+          switch (other.type) {
+            case 0:
+              // tank on tank collide
+              if (e.type == 0) {
+                
+              }
+              break;
+          }
+      }
     }
     
     // send the render data to the clients
