@@ -118,8 +118,8 @@ function collideCheck(obj1 = {shape: 4, x: 0, y: 0, w: 0, h: 0, a: 0}, obj2 = {s
   // square~square collide
   if (obj1.shape == 4 && obj2.shape == 4) {
     //check if obj1 collides along x and y axis. If both don't collide that means there are no collisions
-    if ((obj1.x - obj1.w/2 < obj2.x + obj2.w/2 || obj1.x + obj1.w/2 > obj2.x - obj2.w/2) &&
-       ((obj1.y - obj1.h/2 < obj2.y + obj2.h/2 || obj1.y + obj1.h/2 > obj2.y - obj2.h/2))) return true;
+    if ((obj1.x - obj1.w/2 > obj2.x + obj2.w/2 || obj1.x + obj1.w/2 > obj2.x - obj2.w/2) &&
+       ((obj1.y - obj1.h/2 > obj2.y + obj2.h/2 || obj1.y + obj1.h/2 > obj2.y - obj2.h/2))) return true;
     return false;
   }
   // square~circle collide
@@ -172,8 +172,8 @@ function mainLoop() {
             case 0:
               // tank on tank collide
               if (follow.type == 0) {
-                runner.x = saved[0];
-                runner.y = saved[1];
+                //runner.x = saved[0];
+                //runner.y = saved[1];
               }
               // tank on bullet collide
               if (follow.type == 1) {}
@@ -219,4 +219,5 @@ function mainLoop() {
 
 setInterval(mainLoop, 25);
 
-console.log(collideCheck({shape: 4, x: 100, y: 100, w: 50, h: 50, a: 0}, {shape: 4, x: 150, y: 150, w: 20, h: 20, a: 0}) + " returned for collide test")
+    let e = new Entity(null, 1, 2);
+    entities.push(e);
