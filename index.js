@@ -210,7 +210,7 @@ function mainLoop() {
       }
     }
     
-    // send the render data to the clients
+    // go through each client, and send the appropriate data
     let renderdata = [];
     for (let j = 0; j < objects.length; j++) {
       let client = objects[j];
