@@ -34,8 +34,6 @@ class Entity {
     this.type = type;
     this.host = false;
     // game values
-    this.x = Math.floor(Math.random() * c.BASESIZE);
-    this.y = Math.floor(Math.random() * c.BASESIZE);
     this.width = 4000;
     this.height = 5000;
     this.shape = 4;
@@ -44,6 +42,10 @@ class Entity {
     this.turnspeed = 0.1;
     this.color = "#" + Math.floor(Math.random()*16777215).toString(16);
     this.vectors = [0, 0, 0, 0, 0];
+    do {
+      this.x = Math.floor(Math.random() * c.BASESIZE);
+      this.y = Math.floor(Math.random() * c.BASESIZE);
+    } while (checkLocation(this))
   }
 }
 
@@ -142,6 +144,16 @@ function collideCheck(obj1 = {shape: 4, x: 0, y: 0, w: 0, h: 0, a: 0}, obj2 = {s
   }
   // circle~circle collide
   if (obj1.shape == 0 && obj2.shape == 0);
+}
+
+// check a location for collisions, and return true if the spot is good
+function checkLocation(e = {}, avoid = [0, 1, 2, 3]) {
+  for (let i = 0; i < entities.length; i++) {
+    let other = entities[i];
+    if (collideCheck({shape: e.shape, x: e.x, y: e.y, w: e.width, h: e.height, a: e.rotation}, {shape: other.shape, x: other.x, y: other.y, w: other.width, h: other.height, a: other.rotation}))
+      return false;
+  }
+  return true;
 }
 
 // runs 40 times a second, handles movement, sending render data, and runs collision functions
