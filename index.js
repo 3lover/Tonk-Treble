@@ -179,8 +179,8 @@ function mainLoop() {
               if (follow.type == 1) {}
               // tank on wall collide
               if (follow.type == 2) {
-                runner.x = saved[0];
-                runner.y = saved[1];
+                runner.x -= runner.vectors[0] ? Math.sin(runner.rotation) * runner.speed : runner.vectors[2] ? -Math.sin(runner.rotation) * runner.speed : 0;
+                runner.y -= runner.vectors[0] ? -Math.cos(runner.rotation) * runner.speed : runner.vectors[2] ? Math.cos(runner.rotation) * runner.speed : 0;
               }
               // tank on powerup collide
               if (follow.type == 3) {}
@@ -203,7 +203,7 @@ function mainLoop() {
     for (let j = 0; j < objects.length; j++) {
       let client = objects[j];
       renderdata.push({
-        type: 0,
+        type: client.type,
         subclass: 0,
         x: client.x,
         y: client.y,
@@ -220,4 +220,9 @@ function mainLoop() {
 setInterval(mainLoop, 25);
 
     let e = new Entity(null, 1, 2);
+    e.x = 1000;
+    e.y = 1000;
+    e.width = 1000;
+    e.height = 1000;
+    e.color = "black";
     entities.push(e);

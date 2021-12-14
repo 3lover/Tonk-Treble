@@ -88,5 +88,22 @@ socket.on("render", (data) => {
       ctx.rotate(-shape.rotation);
       ctx.translate(-shape.x * ratio, -shape.y * ratio);
     }
+    if (shape.type == 2) {
+      // move canvas in case we need to rotate
+      ctx.translate(shape.x * ratio, shape.y * ratio);
+      ctx.rotate(shape.rotation);
+      ctx.lineWidth = 30;
+      ctx.fillStyle = shape.color;
+      
+      //draw it
+      ctx.beginPath();
+      ctx.rect(-shape.width/2 * ratio, -shape.height/2 * ratio, shape.width * ratio, shape.height * ratio);
+      ctx.fill();
+      ctx.stroke();
+      
+      // reset canvas
+      ctx.rotate(-shape.rotation);
+      ctx.translate(-shape.x * ratio, -shape.y * ratio);
+    }
   }
 })
