@@ -154,6 +154,8 @@ function mainLoop() {
     });
     for (let i in objects) {
       let e = objects[i];
+      // for wall collidions easier to save values than undo movement
+      let saved = [e.x, e.y];
       e.x += e.vectors[0] ? Math.sin(e.rotation) * e.speed : e.vectors[2] ? -Math.sin(e.rotation) * e.speed : 0;
       e.y += e.vectors[0] ? -Math.cos(e.rotation) * e.speed : e.vectors[2] ? Math.cos(e.rotation) * e.speed : 0;
       e.rotation += e.vectors[1] ? -e.turnspeed : e.vectors[3] ? e.turnspeed : 0;
@@ -162,15 +164,37 @@ function mainLoop() {
       for (let j = i; j < objects.length; j++) {
         let other = objects[j];
         if (other.lobby != e.lobby) continue;
-        if (collideCheck({shape: e.shape, x: e.x, y: e.y, w: e.width, h: e.height, a: e.rotation}, {shape: other.shape, x: other.x, y: other.y, w: other.width, h: other.height, a: other.rotation}))
-          switch (other.type) {
+        if (collideCheck({shape: e.shape, x: e.x, y: e.y, w: e.width, h: e.height, a: e.rotation}, {shape: other.shape, x: other.x, y: other.y, w: other.width, h: other.height, a: other.rotation})) {
+          // tanks(0), bullets(1), walls(2), powerups(3) valued in that order
+          let runner = e.type < other.type ? e : other,
+              follow = e.type < other.type ? other : e;
+          switch (runner.type) {
             case 0:
               // tank on tank collide
-              if (e.type == 0) {
-                
+              if (follow.type == 0) {
+                runner.x = saved[0];
+                runner.y = saved[1];
               }
+              // tank on bullet collide
+              if (follow.type == 1) {}
+              // tank on wall collide
+              if (follow.type == 2) {
+                runner.x = saved[0];
+                runner.y = saved[1];
+              }
+              // tank on powerup collide
+              if (follow.type == 3) {}
+              break;
+            case 1:
+              // bullet on bullet collide
+              if (follow.type == 1) {}
+              // bullet on wall collide
+              if (follow.type == 2) {}
+              // bullet and powerup collide, just in case
+              if (follow.type == 3) {}
               break;
           }
+        }
       }
     }
     
