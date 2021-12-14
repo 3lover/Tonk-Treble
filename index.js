@@ -27,7 +27,7 @@ app.use(express.static('public'));
 // the entity class
 class Entity {
   // set if it is bound to a client, the lobby, and the type of entity it is
-  constructor(client = null, lobby = 0, type = "t") {
+  constructor(client = null, lobby = 0, type = -1) {
     // server values
     this.client = client;
     this.lobby = lobby;
@@ -58,7 +58,7 @@ io.on("connection", socket => {
   socket.on("userJoined", room => {
     socket.join(room);
     players[room]++;
-    let e = new Entity(socket.id, room, "t");
+    let e = new Entity(socket.id, room, 0);
     if (players[room] == 1) e.host = true;
     entities.push(e);
   });
@@ -117,9 +117,9 @@ io.on("connection", socket => {
 function collideCheck(obj1 = {shape: 4, x: 0, y: 0, w: 0, h: 0, a: 0}, obj2 = {shape: 0, x: 0, y: 0, r: 0}) {
   // square~square collide
   if (obj1.shape == 4 && obj2.shape == 4) {
-    //check if obj1 collides along x and y axis. If neither collide that means there are no collisions
-    if (obj1.x - obj1.w/2 < obj2.x + obj2.w/2 || obj1.x + obj1.w/2 > obj2.x - obj2.w/2) return true;
-    if (obj1.y - obj1.h/2 < obj2.y + obj2.h/2 || obj1.y + obj1.h/2 > obj2.y - obj2.h/2) return true;
+    //check if obj1 collides along x and y axis. If both don't collide that means there are no collisions
+    if ((obj1.x - obj1.w/2 < obj2.x + obj2.w/2 || obj1.x + obj1.w/2 > obj2.x - obj2.w/2) &&
+       ((obj1.y - obj1.h/2 < obj2.y + obj2.h/2 || obj1.y + obj1.h/2 > obj2.y - obj2.h/2))) return true;
     return false;
   }
   // square~circle collide
@@ -163,7 +163,7 @@ function mainLoop() {
       // go through each entity pair one time and check for collisions
       for (let j = i; j < objects.length; j++) {
         let other = objects[j];
-        if (other.lobby != e.lobby) continue;
+        //console.log()
         if (collideCheck({shape: e.shape, x: e.x, y: e.y, w: e.width, h: e.height, a: e.rotation}, {shape: other.shape, x: other.x, y: other.y, w: other.width, h: other.height, a: other.rotation})) {
           // tanks(0), bullets(1), walls(2), powerups(3) valued in that order
           let runner = e.type < other.type ? e : other,
@@ -218,3 +218,5 @@ function mainLoop() {
 }
 
 setInterval(mainLoop, 25);
+
+console.log(collideCheck({shape: 4, x: 100, y: 100, w: 50, h: 50, a: 0}, {shape: 4, x: 150, y: 150, w: 20, h: 20, a: 0}) + " returned for collide test")
