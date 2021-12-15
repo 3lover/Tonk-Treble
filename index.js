@@ -259,7 +259,7 @@ function mainLoop() {
 }
 
 setInterval(mainLoop, 25);
-for (let r = 0; r < 40; r++) {
+for (let r = 0; r < 20; r++) {
     let e = new Entity(null, 0, 2);
     for (let i = 0; i < 1000; i++) {
       e.x = Math.floor(Math.random() * c.BASESIZE);
