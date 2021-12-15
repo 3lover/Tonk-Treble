@@ -65,9 +65,10 @@ io.on("connection", socket => {
     players[room]++;
     let e = new Entity(socket.id, room, 0);
     if (players[room] == 1) e.vision = 30000;//e.host = true;
-    for (let i = 0; i < 1000; i++) {
+    for (let i = 0; i < 10000; i++) {
       e.x = Math.floor(Math.random() * c.BASESIZE);
       e.y = Math.floor(Math.random() * c.BASESIZE);
+      console.log(i)
       if (checkLocation(e)) break;
     }
     e.subclass = 0;
@@ -169,6 +170,8 @@ function collideCheck(obj1 = {shape: 4, x: 0, y: 0, w: 0, h: 0, a: 0}, obj2 = {s
 
 // check a location for collisions, and return true if the spot is good
 function checkLocation(e = {}, avoid = [0, 1, 2, 3]) {
+  if (outOfBounds(e))
+    return false;
   for (let i = 0; i < entities.length; i++) {
     let other = entities[i];
     if (!avoid.includes(other.type) || other == e || other.lobby != e.lobby) continue;
@@ -259,7 +262,7 @@ function mainLoop() {
 }
 
 setInterval(mainLoop, 25);
-for (let r = 0; r < 20; r++) {
+for (let r = 0; r < 50; r++) {
     let e = new Entity(null, 0, 2);
     for (let i = 0; i < 1000; i++) {
       e.x = Math.floor(Math.random() * c.BASESIZE);
