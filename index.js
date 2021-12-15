@@ -64,10 +64,11 @@ io.on("connection", socket => {
     players[room]++;
     let e = new Entity(socket.id, room, 0);
     if (players[room] == 1) e.vision = 30000;//e.host = true;
-    do {
+    for (let i = 0; i < 1000; i++) {
       e.x = Math.floor(Math.random() * c.BASESIZE);
       e.y = Math.floor(Math.random() * c.BASESIZE);
-    } while (!checkLocation(e));
+      if (checkLocation(e)) break;
+    }
     e.hitbox = {shape: 4, x: e.x, y: e.y, w: e.width, h: e.height, a: e.rotation};
     entities.push(e);
   });
@@ -150,8 +151,8 @@ function collideCheck(obj1 = {shape: 4, x: 0, y: 0, w: 0, h: 0, a: 0}, obj2 = {s
     //let cornerDistance = (circle.x - rect.width/2)**2 + (circle.y - rect.height/2)**2;
 
     //return (cornerDistance <= (circle.r^2));
-    let dx = circle.x - rect.w/2 ** 2;
-		let dy = circle.y - rect.h/2 ** 2;
+    let dx = (circle.x - rect.w/2) ** 2;
+		let dy = (circle.y - rect.h/2) ** 2;
 		if (dx + dy <= circle.r ** 2) return true;
     return false;
   }
@@ -249,10 +250,11 @@ function mainLoop() {
 setInterval(mainLoop, 25);
 
     let e = new Entity(null, 0, 2);
-    do {
+    for (let i = 0; i < 1000; i++) {
       e.x = Math.floor(Math.random() * c.BASESIZE);
       e.y = Math.floor(Math.random() * c.BASESIZE);
-    } while (!checkLocation(e));
+      if (checkLocation(e)) break;
+    }
     e.width = 500;
     e.hitbox = {shape: 0, x: e.x, y: e.y, w: e.width, h: e.height, a: e.rotation};
     e.color = "black";
