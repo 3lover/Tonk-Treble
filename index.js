@@ -70,7 +70,7 @@ io.on("connection", socket => {
       e.y = Math.floor(Math.random() * c.BASESIZE);
       if (checkLocation(e)) break;
     }
-    e.subclass == 0
+    e.subclass = 0;
     e.hitbox = {shape: 4, x: e.x, y: e.y, w: e.width, h: e.height, a: e.rotation};
     entities.push(e);
   });
@@ -125,6 +125,13 @@ io.on("connection", socket => {
   });
 });
 
+// return true if an object is out of the map size
+function outOfBounds(obj = {shape: 4, x: 0, y: 0, w: 0, h: 0, a: 0}) {
+  // do some basic wall collisions
+    if (c.BASESIZE - Math.abs(obj.x + obj.w/2) < 0) return true;
+    return false;
+}
+
 // return true if two objects within the parameters overlap
 function collideCheck(obj1 = {shape: 4, x: 0, y: 0, w: 0, h: 0, a: 0}, obj2 = {shape: 0, x: 0, y: 0, r: 0}) {
   // square~square collide
@@ -164,7 +171,7 @@ function checkLocation(e = {}, avoid = [0, 1, 2, 3]) {
   for (let i = 0; i < entities.length; i++) {
     let other = entities[i];
     if (!avoid.includes(other.type) || other == e || other.lobby != e.lobby) continue;
-    if (collideCheck({shape: e.shape, x: e.x, y: e.y, w: e.width, h: e.height, a: e.rotation}, {shape: other.shape, x: other.x, y: other.y, w: other.width, h: other.height, a: other.rotation}))
+    if (collideCheck(e.hitbox, other.hitbox))
       return false;
   }
   return true;
