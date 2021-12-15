@@ -27,28 +27,28 @@ app.use(express.static('public'));
 // the entity class
 class Entity {
   // set if it is bound to a client, the lobby, and the type of entity it is
-  constructor(client = null, lobby = 0, type = -1, subclass = -1) {
+  constructor(client = null, lobby = 0, type = -1, prop = {}) {
     // server values
     this.client = client;
     this.lobby = lobby;
     this.type = type;
-    this.subclass = subclass;
-    this.host = false;
-    this.camx = 0;
-    this.camy = 0;
+    this.subclass = prop.subclass || 0;
+    this.host = prop.host || false;
+    this.camx = prop.camx || prop.x || 0;
+    this.camy = prop.camy || prop.y || 0;
     // game values
-    this.width = 1000;
-    this.height = 1000;
-    this.shape = 4;
-    this.rotation = 0;
-    this.speed = 100;
-    this.turnspeed = 0.1;
-    this.color = "#" + Math.floor(Math.random()*16777215).toString(16);
-    this.vectors = [0, 0, 0, 0, 0];
-    this.x = 0;
-    this.y = 0;
-    this.vision = 10000;
-    this.hitbox = {shape: 4, x: 0, y: 0, w: 0, h: 0, a: 0};
+    this.width = prop.width || 1000;
+    this.height = prop.height || 1000;
+    this.shape = prop.shape || 4;
+    this.rotation = prop.rotation || 0;
+    this.speed = prop.speed || 100;
+    this.turnspeed = prop.turnspeed || 0.1;
+    this.color = prop.color || "#" + Math.floor(Math.random()*16777215).toString(16);
+    this.vectors = prop.vectors || [0, 0, 0, 0, 0];
+    this.x = prop.x || 0;
+    this.y = prop.y || 0;
+    this.vision = prop.vision || 10000;
+    this.hitbox = prop.hitbox || {shape: 4, x: 0, y: 0, w: 0, h: 0, a: 0};
   }
 }
 
@@ -63,15 +63,18 @@ io.on("connection", socket => {
   socket.on("userJoined", room => {
     socket.join(socket.id);
     players[room]++;
-    let e = new Entity(socket.id, room, 0);
-    if (players[room] == 1) e.vision = 30000;//e.host = true;
+    let e = new Entity(socket.id, room, 0, {
+      subclass: 0,
+      vision: 30000,
+      host: players[room] == 1
+    });
+    if (players[room] == 1) e.host = true;
     for (let i = 0; i < 10000; i++) {
       e.x = Math.floor(Math.random() * c.BASESIZE);
       e.y = Math.floor(Math.random() * c.BASESIZE);
       console.log(i)
       if (checkLocation(e)) break;
     }
-    e.subclass = 0;
     e.hitbox = {shape: 4, x: e.x, y: e.y, w: e.width, h: e.height, a: e.rotation};
     entities.push(e);
   });
@@ -175,6 +178,7 @@ function checkLocation(e = {}, avoid = [0, 1, 2, 3]) {
   for (let i = 0; i < entities.length; i++) {
     let other = entities[i];
     if (!avoid.includes(other.type) || other == e || other.lobby != e.lobby) continue;
+    console.log(`other: ${JSON.stringify(other.hitbox)} vs me: ${JSON.stringify(e.hitbox)}`)
     if (collideCheck(e.hitbox, other.hitbox))
       return false;
   }
@@ -262,28 +266,30 @@ function mainLoop() {
 }
 
 setInterval(mainLoop, 25);
-for (let r = 0; r < 50; r++) {
-    let e = new Entity(null, 0, 2);
+for (let r = 0; r < 1; r++) {
+    let e = new Entity(null, 0, 2, {
+      width: 500,
+      color: "black",
+      subclass: 0
+    });
     for (let i = 0; i < 1000; i++) {
       e.x = Math.floor(Math.random() * c.BASESIZE);
       e.y = Math.floor(Math.random() * c.BASESIZE);
       if (checkLocation(e)) break;
     }
-    e.width = 500;
     e.hitbox = {shape: 0, x: e.x, y: e.y, r: e.width};
-    e.color = "black";
-    e.subclass = 0;
     entities.push(e);
-    e = new Entity(null, 0, 2);
+    e = new Entity(null, 0, 2, {
+      width: 18000,
+      height: 18000,
+      color: "black",
+      subclass: 4
+    });
     for (let i = 0; i < 1000; i++) {
       e.x = Math.floor(Math.random() * c.BASESIZE);
       e.y = Math.floor(Math.random() * c.BASESIZE);
       if (checkLocation(e)) break;
     }
-    e.width = 1000;
-    e.height = 1000;
     e.hitbox = {shape: 4, x: e.x, y: e.y, w: e.width, h: e.height, a: e.rotation};
-    e.color = "black";
-    e.subclass = 4;
     entities.push(e);
 }
