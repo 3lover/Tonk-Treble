@@ -141,11 +141,11 @@ function collideCheck(obj1 = {shape: 4, x: 0, y: 0, w: 0, h: 0, a: 0}, obj2 = {s
     circle.x = Math.abs(circle.x - rect.x);
     circle.y = Math.abs(circle.y - rect.y);
 
-    if (circle.x > (rect.w/2 + circle.r)) return false;
-    if (circle.y > (rect.h/2 + circle.r)) return false;
+    if (circle.x > rect.w/2 + circle.r) return false;
+    if (circle.y > rect.h/2 + circle.r) return false;
 
-    if (circle.x <= (rect.w/2)) return true;
-    if (circle.y <= (rect.h/2)) return true;
+    if (circle.x <= rect.w/2) return true;
+    if (circle.y <= rect.h/2) return true;
 
     //let cornerDistance = (circle.x - rect.width/2)**2 + (circle.y - rect.height/2)**2;
 
