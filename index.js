@@ -140,18 +140,18 @@ function collideCheck(obj1 = {shape: 4, x: 0, y: 0, w: 0, h: 0, a: 0}, obj2 = {s
         circle = obj1.shape == 4 ? obj2 : obj1;
     // circle physics are fun 
     //   ~no one ever
-    console.log (circle.x, circle.y, rect.w/2, rect.h/2)
-    circle.x = Math.abs(circle.x - rect.x);
-    circle.y = Math.abs(circle.y - rect.y);
+    console.log ("old " + circle.x, circle.y, circle.r, rect.x, rect.y, rect.w/2, rect.h/2)
+    let circx = Math.abs(circle.x - rect.x);
+    let circy = Math.abs(circle.y - rect.y);
+    console.log ("new " + circx, circy)
 
-    if (circle.x > rect.w/2 + circle.r) return false;
-    if (circle.y > rect.h/2 + circle.r) return false;
+    if (circx > rect.w/2 + circle.r) return false;
+    if (circy > rect.h/2 + circle.r) return false;
 
-    if (circle.x <= rect.w/2) return true;
-    if (circle.y <= rect.h/2) return true;
+    if (circx <= rect.w/2 || circy <= rect.h/2) return true;
 
-    let dx = (circle.x - rect.w/2);
-		let dy = (circle.y - rect.h/2);
+    let dx = (circx - rect.w/2);
+		let dy = (circy - rect.h/2);
 		if (dx ** 2 + dy ** 2 <= circle.r ** 2) return true;
     return false;
   }
@@ -259,4 +259,4 @@ setInterval(mainLoop, 25);
     e.color = "black";
     entities.push(e);
 
-console.log(collideCheck({shape:4,x:0,y:0,w:100,h:100,a:0}, {shape:0,x:100,y:0,r:49}) + " checked")
+console.log(collideCheck({shape:4,x:0.75,y:0.75,w:4,h:4,a:0}, {shape:0,x:0,y:0,r:1}) + " checked")
