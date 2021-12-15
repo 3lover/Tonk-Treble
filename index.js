@@ -33,6 +33,8 @@ class Entity {
     this.lobby = lobby;
     this.type = type;
     this.host = false;
+    this.camx = 0;
+    this.camy = 0;
     // game values
     this.width = 1000;
     this.height = 1000;
@@ -42,9 +44,9 @@ class Entity {
     this.turnspeed = 0.1;
     this.color = "#" + Math.floor(Math.random()*16777215).toString(16);
     this.vectors = [0, 0, 0, 0, 0];
-    this.x = Math.floor(Math.random() * c.BASESIZE);
-    this.y = Math.floor(Math.random() * c.BASESIZE);
-    this.vision = 2000;
+    this.x = 0;
+    this.y = 0;
+    this.vision = 5000;
   }
 }
 
@@ -57,7 +59,7 @@ io.on("connection", socket => {
   
   // when a client joins a room create a player instance
   socket.on("userJoined", room => {
-    socket.join(room);
+    socket.join(socket.id);
     players[room]++;
     let e = new Entity(socket.id, room, 0);
     if (players[room] == 1) e.host = true;
@@ -164,7 +166,7 @@ function checkLocation(e = {}, avoid = [0, 1, 2, 3]) {
 
 // runs 40 times a second, handles movement, sending render data, and runs collision functions
 function mainLoop() {
-  for (let l = 0; l < players.length; l++) {
+  for (let l = 0; l < 1; l++) { //players.length
     
     // get the entities in the specific lobby
     let objects = entities.filter( entity => {
@@ -211,21 +213,26 @@ function mainLoop() {
     }
     
     // go through each client, and send the appropriate data
-    let renderdata = [];
-    for (let j = 0; j < objects.length; j++) {
-      let client = objects[j];
-      renderdata.push({
-        type: client.type,
-        subclass: 0,
-        x: client.x,
-        y: client.y,
-        width: client.width,
-        height: client.height,
-        color: client.color,
-        rotation: client.rotation
-      });
+    for (let c = 0; c < objects.length; c++) {
+      let client = objects[c];
+      if (!client.client) continue;
+      let renderdata = [];
+      for (let j = 0; j < objects.length; j++) {
+        let obj = objects[j];
+        if ()
+        renderdata.push({
+          type: obj.type,
+          subclass: 0,
+          x: obj.x,
+          y: obj.y,
+          width: obj.width,
+          height: obj.height,
+          color: obj.color,
+          rotation: obj.rotation
+        });
+      }
+      io.to(client.client).emit("render", renderdata);
     }
-    io.to(l.toString()).emit("render", renderdata);
   }
 }
 
