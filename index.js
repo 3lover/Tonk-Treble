@@ -152,7 +152,8 @@ function collideCheck(obj1 = {shape: 4, x: 0, y: 0, w: 0, h: 0, a: 0}, obj2 = {s
     //return (cornerDistance <= (circle.r^2));
     let dx = circle.x - rect.w / 2;
 		let dy = circle.y - rect.h / 2;
-				if (dx * dx + dy * dy <= ((obj.width / 2) ** 2)) return [other.type, j];
+		//if (Math.sqrt(dx * dx + dy * dy) <= circle.r) return true;
+    return false;
   }
   // circle~circle collide
   if (obj1.shape == 0 && obj2.shape == 0);
