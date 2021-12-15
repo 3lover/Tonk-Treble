@@ -168,6 +168,7 @@ function collideCheck(obj1 = {shape: 4, x: 0, y: 0, w: 0, h: 0, a: 0}, obj2 = {s
 // choose a random location for an object with in set limits
 function checkLocation(e = {}, avoid = [0, 1, 2, 3]) {
   for (let i = 0; i < 10000; i++) {
+    console.log(i)
     e.x = Math.floor(Math.random() * c.BASESIZE);
     e.y = Math.floor(Math.random() * c.BASESIZE);
     if (outOfBounds(e))
@@ -269,20 +270,24 @@ function mainLoop() {
 setInterval(mainLoop, 25);
 for (let r = 0; r < 1; r++) {
     let e = new Entity(null, 0, 2, {
+      shape: 0,
       width: 500,
       color: "black",
       subclass: 0
     });
     checkLocation(e);
+  console.log("yeee")
     e.hitbox = {shape: 0, x: e.x, y: e.y, r: e.width};
     entities.push(e);
     e = new Entity(null, 0, 2, {
+      shape: 4,
       width: 18000,
       height: 18000,
       color: "black",
       subclass: 4
     });
     checkLocation(e);
+  console.log("ye")
     e.hitbox = {shape: 4, x: e.x, y: e.y, w: e.width, h: e.height, a: e.rotation};
     entities.push(e);
 }
