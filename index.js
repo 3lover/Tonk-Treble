@@ -47,6 +47,7 @@ class Entity {
     this.x = 0;
     this.y = 0;
     this.vision = 10000;
+    this.hitbox = {shape: 4, x: 0, y: 0, w: 0, h: 0, a: 0};
   }
 }
 
@@ -139,13 +140,13 @@ function collideCheck(obj1 = {shape: 4, x: 0, y: 0, w: 0, h: 0, a: 0}, obj2 = {s
     circle.x = Math.abs(circle.x - rect.x);
     circle.y = Math.abs(circle.y - rect.y);
 
-    if (circle.x > (rect.w/2 + circle.r)) { return false; }
-    if (circle.y > (rect.h/2 + circle.r)) { return false; }
+    if (circle.x > (rect.w/2 + circle.r)) return false;
+    if (circle.y > (rect.h/2 + circle.r)) return false;
 
-    if (circle.x <= (rect.w/2)) { return true; } 
-    if (circle.y <= (rect.h/2)) { return true; }
+    if (circle.x <= (rect.w/2)) return true;
+    if (circle.y <= (rect.h/2)) return true;
 
-    let cornerDistance = Math.sqrt( (circle.x - rect.width/2)**2 + (circle.y - rect.height/2)**2 );
+    let cornerDistance = (circle.x - rect.width/2)**2 + (circle.y - rect.height/2)**2;
 
     return (cornerDistance <= (circle.r^2));
   }
@@ -180,10 +181,15 @@ function mainLoop() {
       e.y += e.vectors[0] ? -Math.cos(e.rotation) * e.speed : e.vectors[2] ? Math.cos(e.rotation) * e.speed : 0;
       e.rotation += e.vectors[1] ? -e.turnspeed : e.vectors[3] ? e.turnspeed : 0;
       
+      // 
+      e.hitbox.x = e.x;
+      e.hitbox.y = e.y;
+      e.hitbox.a = e.rotation;
+      
       // go through each entity and check if we should look further
       for (let j = 0; j < objects.length; j++) {
         let other = objects[j];
-        if (collideCheck({shape: e.shape, x: e.x, y: e.y, w: e.width, h: e.height, a: e.rotation}, {shape: other.shape, x: other.x, y: other.y, w: other.width, h: other.height, a: other.rotation})) {
+        if (collideCheck(e.hitbox, other.hitbox)) {
           switch (e.type) {
             case 0:
               // tank on tank collide
@@ -248,4 +254,4 @@ setInterval(mainLoop, 25);
     e.color = "black";
     entities.push(e);
 
-console.log(collideCheck({shape:4,x:0,y:0,w:100,h:100,a:0}, {shape:0,x:100,y:0,r:90}) + " checked")
+console.log(collideCheck({shape:4,x:0,y:0,w:100,h:100,a:0}, {shape:0,x:100,y:0,r:50}) + " checked")
