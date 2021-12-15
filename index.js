@@ -27,11 +27,12 @@ app.use(express.static('public'));
 // the entity class
 class Entity {
   // set if it is bound to a client, the lobby, and the type of entity it is
-  constructor(client = null, lobby = 0, type = -1) {
+  constructor(client = null, lobby = 0, type = -1, subclass = -1) {
     // server values
     this.client = client;
     this.lobby = lobby;
     this.type = type;
+    this.subclass = subclass;
     this.host = false;
     this.camx = 0;
     this.camy = 0;
@@ -69,6 +70,7 @@ io.on("connection", socket => {
       e.y = Math.floor(Math.random() * c.BASESIZE);
       if (checkLocation(e)) break;
     }
+    e.subclass == 0
     e.hitbox = {shape: 4, x: e.x, y: e.y, w: e.width, h: e.height, a: e.rotation};
     entities.push(e);
   });
@@ -140,10 +142,8 @@ function collideCheck(obj1 = {shape: 4, x: 0, y: 0, w: 0, h: 0, a: 0}, obj2 = {s
         circle = obj1.shape == 4 ? obj2 : obj1;
     // circle physics are fun 
     //   ~no one ever
-    console.log ("old " + circle.x, circle.y, circle.r, rect.x, rect.y, rect.w/2, rect.h/2)
     let circx = Math.abs(circle.x - rect.x);
     let circy = Math.abs(circle.y - rect.y);
-    console.log ("new " + circx, circy)
 
     if (circx > rect.w/2 + circle.r) return false;
     if (circy > rect.h/2 + circle.r) return false;
@@ -232,7 +232,7 @@ function mainLoop() {
         if (obj.x < client.x - client.vision || obj.x > client.x + client.vision || obj.y < client.y - client.vision || obj.y > client.y + client.vision) continue;
         renderdata.push({
           type: obj.type,
-          subclass: 0,
+          subclass: obj.subclass,
           x: (client.x - obj.x) + 5000,
           y: (client.y - obj.y) + 5000,
           width: obj.width,
@@ -255,8 +255,19 @@ setInterval(mainLoop, 25);
       if (checkLocation(e)) break;
     }
     e.width = 500;
-    e.hitbox = {shape: 0, x: e.x, y: e.y, w: e.width, h: e.height, a: e.rotation};
+    e.hitbox = {shape: 0, x: e.x, y: e.y, r: e.width};
     e.color = "black";
+    e.subclass = 0;
     entities.push(e);
-
-console.log(collideCheck({shape:4,x:0.75,y:0.75,w:4,h:4,a:0}, {shape:0,x:0,y:0,r:1}) + " checked")
+    e = new Entity(null, 0, 2);
+    for (let i = 0; i < 1000; i++) {
+      e.x = Math.floor(Math.random() * c.BASESIZE);
+      e.y = Math.floor(Math.random() * c.BASESIZE);
+      if (checkLocation(e)) break;
+    }
+    e.width = 1000;
+    e.height = 1000;
+    e.hitbox = {shape: 4, x: e.x, y: e.y, w: e.width, h: e.height, a: e.rotation};
+    e.color = "black";
+    e.subclass = 4;
+    entities.push(e);

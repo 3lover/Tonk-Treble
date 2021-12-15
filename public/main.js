@@ -100,8 +100,8 @@ socket.on("render", (data) => {
       
       //draw it
       ctx.beginPath();
-      ctx.arc(shape.width/2 * ratio, shape.height/2 * ratio, shape.width * ratio, 0, 7);
-      //ctx.rect(-shape.width/2 * ratio, -shape.height/2 * ratio, shape.width * ratio, shape.height * ratio);
+      if (shape.subclass == 0) ctx.arc(0, 0, shape.width * ratio, 0, 7);
+      else if (shape.subclass == 4) ctx.rect(-shape.width/2 * ratio, -shape.height/2 * ratio, shape.width * ratio, shape.height * ratio);
       ctx.fill();
       ctx.stroke();
       
