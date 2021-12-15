@@ -46,7 +46,7 @@ class Entity {
     this.vectors = [0, 0, 0, 0, 0];
     this.x = 0;
     this.y = 0;
-    this.vision = 5000;
+    this.vision = 10000;
   }
 }
 
@@ -62,7 +62,7 @@ io.on("connection", socket => {
     socket.join(socket.id);
     players[room]++;
     let e = new Entity(socket.id, room, 0);
-    if (players[room] == 1) e.host = true;
+    if (players[room] == 1) e.vision = 3000;//e.host = true;
     do {
       e.x = Math.floor(Math.random() * c.BASESIZE);
       e.y = Math.floor(Math.random() * c.BASESIZE);
@@ -228,7 +228,7 @@ function mainLoop() {
           width: obj.width,
           height: obj.height,
           color: obj.color,
-          rotation: obj.rotation
+          rotation: obj.rotation + Math.PI
         });
       }
       io.to(client.client).emit("render", renderdata);
@@ -247,3 +247,5 @@ setInterval(mainLoop, 25);
     e.height = 1000;
     e.color = "black";
     entities.push(e);
+
+console.log(collideCheck({shape:4,x:0,y:0,w:100,h:100,a:0}, {shape:0,x:100,y:0,r:90}) + " checked")
