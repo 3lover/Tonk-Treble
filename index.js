@@ -68,6 +68,7 @@ io.on("connection", socket => {
       e.x = Math.floor(Math.random() * c.BASESIZE);
       e.y = Math.floor(Math.random() * c.BASESIZE);
     } while (!checkLocation(e));
+    e.hitbox = {shape: 4, x: e.x, y: e.y, w: e.width, h: e.height, a: e.rotation};
     entities.push(e);
   });
   
@@ -181,7 +182,7 @@ function mainLoop() {
       e.y += e.vectors[0] ? -Math.cos(e.rotation) * e.speed : e.vectors[2] ? Math.cos(e.rotation) * e.speed : 0;
       e.rotation += e.vectors[1] ? -e.turnspeed : e.vectors[3] ? e.turnspeed : 0;
       
-      // 
+      // remake hitbox
       e.hitbox.x = e.x;
       e.hitbox.y = e.y;
       e.hitbox.a = e.rotation;
@@ -198,7 +199,6 @@ function mainLoop() {
               if (other.type == 1) {}
               // tank on wall collide
               if (other.type == 2) {
-                console.log(e.x, e.y, other.x, other.y, e.width, e.height, other.width, other.height)
                 e.x = saved[0];
                 e.y = saved[1];
               }
@@ -251,6 +251,7 @@ setInterval(mainLoop, 25);
     } while (!checkLocation(e));
     e.width = 1000;
     e.height = 1000;
+    e.hitbox = {shape: 0, x: e.x, y: e.y, w: e.width, h: e.height, a: e.rotation};
     e.color = "black";
     entities.push(e);
 
