@@ -63,7 +63,7 @@ io.on("connection", socket => {
     socket.join(socket.id);
     players[room]++;
     let e = new Entity(socket.id, room, 0);
-    if (players[room] == 1) e.vision = 3000;//e.host = true;
+    if (players[room] == 1) e.vision = 30000;//e.host = true;
     do {
       e.x = Math.floor(Math.random() * c.BASESIZE);
       e.y = Math.floor(Math.random() * c.BASESIZE);
@@ -147,9 +147,12 @@ function collideCheck(obj1 = {shape: 4, x: 0, y: 0, w: 0, h: 0, a: 0}, obj2 = {s
     if (circle.x <= (rect.w/2)) return true;
     if (circle.y <= (rect.h/2)) return true;
 
-    let cornerDistance = (circle.x - rect.width/2)**2 + (circle.y - rect.height/2)**2;
+    //let cornerDistance = (circle.x - rect.width/2)**2 + (circle.y - rect.height/2)**2;
 
-    return (cornerDistance <= (circle.r^2));
+    //return (cornerDistance <= (circle.r^2));
+    let dx = circle.x - rect.w / 2;
+		let dy = circle.y - rect.h / 2;
+				if (dx * dx + dy * dy <= ((obj.width / 2) ** 2)) return [other.type, j];
   }
   // circle~circle collide
   if (obj1.shape == 0 && obj2.shape == 0);
@@ -249,10 +252,9 @@ setInterval(mainLoop, 25);
       e.x = Math.floor(Math.random() * c.BASESIZE);
       e.y = Math.floor(Math.random() * c.BASESIZE);
     } while (!checkLocation(e));
-    e.width = 1000;
-    e.height = 1000;
+    e.width = 500;
     e.hitbox = {shape: 0, x: e.x, y: e.y, w: e.width, h: e.height, a: e.rotation};
     e.color = "black";
     entities.push(e);
 
-console.log(collideCheck({shape:4,x:0,y:0,w:100,h:100,a:0}, {shape:0,x:100,y:0,r:50}) + " checked")
+console.log(collideCheck({shape:4,x:0,y:0,w:100,h:100,a:0}, {shape:0,x:100,y:0,r:49}) + " checked")
