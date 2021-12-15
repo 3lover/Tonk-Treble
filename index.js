@@ -177,7 +177,7 @@ function checkLocation(e = {}, avoid = [0, 1, 2, 3]) {
     for (let i = 0; i < entities.length; i++) {
       let other = entities[i];
       if (!avoid.includes(other.type) || other == e || other.lobby != e.lobby) continue;
-      console.log(`other: ${JSON.stringify(other.hitbox)} vs me: ${JSON.stringify(e.hitbox)}`)
+      console.log(`other: ${JSON.stringify(other.hitbox)} vs me: ${JSON.stringify(e.hitbox)}`);
       if (collideCheck(e.hitbox, other.hitbox)) {
         goodspot = false;
         break;
