@@ -57,6 +57,9 @@ document.getElementById("leavelobbybtn").onclick = () => {
 
 socket.on("render", (data) => {
   ctx.clearRect(0, 0, WIDTH, HEIGHT);
+  
+  //move to the right x to make the screen render as a square
+  ctx.translate((WIDTH - HEIGHT)/2, 0);
   // the ratio is 10000 = the canvas height for drawing. 0 is center and goes through -5000 to 5000
   for (let i in data) {
     let shape = data[i];
@@ -106,4 +109,6 @@ socket.on("render", (data) => {
       ctx.translate(-shape.x * ratio, -shape.y * ratio);
     }
   }
+  // move the screen back
+  ctx.translate(-(WIDTH - HEIGHT)/2, 0);
 })

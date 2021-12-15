@@ -219,12 +219,12 @@ function mainLoop() {
       let renderdata = [];
       for (let j = 0; j < objects.length; j++) {
         let obj = objects[j];
-        if ()
+        if (obj.x < client.x - client.vision || obj.x > client.x + client.vision || obj.y < client.y - client.vision || obj.y > client.y + client.vision) continue;
         renderdata.push({
           type: obj.type,
           subclass: 0,
-          x: obj.x,
-          y: obj.y,
+          x: (client.x - obj.x) + 5000,
+          y: (client.y - obj.y) + 5000,
           width: obj.width,
           height: obj.height,
           color: obj.color,
