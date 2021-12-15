@@ -138,22 +138,21 @@ function collideCheck(obj1 = {shape: 4, x: 0, y: 0, w: 0, h: 0, a: 0}, obj2 = {s
   if ((obj1.shape == 4 && obj2.shape == 0) || (obj1.shape == 0 && obj2.shape == 4)) {
     let rect = obj1.shape == 4 ? obj1 : obj2,
         circle = obj1.shape == 4 ? obj2 : obj1;
-    // from stack overflow, probably works?
+    // circle physics are fun 
+    //   ~no one ever
+    console.log (circle.x, circle.y, rect.w/2, rect.h/2)
     circle.x = Math.abs(circle.x - rect.x);
     circle.y = Math.abs(circle.y - rect.y);
 
     if (circle.x > rect.w/2 + circle.r) return false;
     if (circle.y > rect.h/2 + circle.r) return false;
 
-    //if (circle.x <= rect.w/2) return true;
-    //if (circle.y <= rect.h/2) return true;
+    if (circle.x <= rect.w/2) return true;
+    if (circle.y <= rect.h/2) return true;
 
-    //let cornerDistance = (circle.x - rect.width/2)**2 + (circle.y - rect.height/2)**2;
-
-    //return (cornerDistance <= (circle.r^2));
-    let dx = (circle.x - rect.w/2) ** 2;
-		let dy = (circle.y - rect.h/2) ** 2;
-		if (dx + dy <= circle.r ** 2) return true;
+    let dx = (circle.x - rect.w/2);
+		let dy = (circle.y - rect.h/2);
+		if (dx ** 2 + dy ** 2 <= circle.r ** 2) return true;
     return false;
   }
   // circle~circle collide
