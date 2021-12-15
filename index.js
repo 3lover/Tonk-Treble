@@ -128,7 +128,8 @@ io.on("connection", socket => {
 // return true if an object is out of the map size
 function outOfBounds(obj = {shape: 4, x: 0, y: 0, w: 0, h: 0, a: 0}) {
   // do some basic wall collisions
-    if (c.BASESIZE - Math.abs(obj.x + obj.w/2) < 0) return true;
+    if (obj.x + obj.w/2 > c.BASESIZE || obj.y + obj.h/2 > c.BASESIZE ||
+        obj.x - obj.w/2 < 0 || obj.y - obj.h/2 < 0) return true;
     return false;
 }
 
@@ -201,6 +202,10 @@ function mainLoop() {
       // go through each entity and check if we should look further
       for (let j = 0; j < objects.length; j++) {
         let other = objects[j];
+        if (outOfBounds(e.hitbox)) {
+          e.x = saved[0];
+          e.y = saved[1];
+        }
         if (collideCheck(e.hitbox, other.hitbox)) {
           switch (e.type) {
             case 0:
@@ -254,7 +259,7 @@ function mainLoop() {
 }
 
 setInterval(mainLoop, 25);
-
+for (let r = 0; r < 4; r++) {
     let e = new Entity(null, 0, 2);
     for (let i = 0; i < 1000; i++) {
       e.x = Math.floor(Math.random() * c.BASESIZE);
@@ -278,3 +283,4 @@ setInterval(mainLoop, 25);
     e.color = "black";
     e.subclass = 4;
     entities.push(e);
+}
