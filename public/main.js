@@ -63,6 +63,15 @@ socket.on("render", (data) => {
   for (let i in data) {
     let shape = data[i];
     let ratio = canvas.height / 10000;
+    // vision bubble
+    if (shape.type == 100) {
+      ctx.beginPath();
+      ctx.fillStyle = "black";
+      ctx.arc(shape.x, shape.y, 8000 * ratio, 0, 2 * Math.PI);
+      ctx.rect(WIDTH, HEIGHT, 0, 0);
+      ctx.fill();
+    }
+    // tank
     if (shape.type == 0) {
       // rotate the canvas and move so as 0,0 is the orgin point of the shape being drawn
       ctx.translate(shape.x * ratio, shape.y * ratio);
@@ -90,6 +99,7 @@ socket.on("render", (data) => {
       ctx.rotate(-shape.rotation);
       ctx.translate(-shape.x * ratio, -shape.y * ratio);
     }
+    // walls
     if (shape.type == 2) {
       // move canvas in case we need to rotate
       ctx.translate(shape.x * ratio, shape.y * ratio);

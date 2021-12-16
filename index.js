@@ -277,12 +277,9 @@ function mainLoop() {
       renderdata.push({
         type: 100,
         subclass: c.VISIONTYPE,
-        x: (client.camx - obj.x) + 5000,
-        y: (client.camy - obj.y) + 5000,
-        width: obj.width,
-        height: obj.height,
-        color: obj.color,
-        rotation: obj.rotation + Math.PI
+        x: (client.camx - client.x) + 5000,
+        y: (client.camy - client.y) + 5000,
+        color: "black"
       })
       io.to(client.client).emit("render", renderdata);
     }
