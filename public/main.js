@@ -56,8 +56,10 @@ document.getElementById("leavelobbybtn").onclick = () => {
 }
 
 socket.on("render", (data) => {
+  if (windowType == 0) return;
   datastore = data;
   let newdate = new Date().getTime();
+  if (!speedstats.lastpingtime)
   speedstats.ping = speedstats.ping < newdate - speedstats.lastpingtime ? newdate - speedstats.lastpingtime : speedstats.ping;
   speedstats.lastpingtime = newdate;
 })
@@ -66,6 +68,8 @@ socket.on("render", (data) => {
 // render what we think the current game state is based on data
 // this is done seperately to avoid some desync and lag issues
 function renderLoop() {
+  // if we don't even have a canvas don't render
+  if (windowType == 0) return;
   let ratio = canvas.height / 10000;
   ctx.clearRect(0, 0, WIDTH, HEIGHT);
   
@@ -149,13 +153,17 @@ function renderLoop() {
   ctx.fill();
   
   // draw our ping and server speed, but only update every second so not too distracting
-  ctx.fillStyle = "white";
+  ctx.fillStyle = speedstats.shownping > 200 ? "red" : "white";
   let pingtext = "Ping: " + speedstats.shownping;
   ctx.font = ((WIDTH - HEIGHT) / 2 / 11) + 'px serif';
   ctx.fillText(pingtext, 0, HEIGHT * 0.2, (WIDTH - HEIGHT)/2);
 }
 
 // update ping speed display once per second
+function updateping() {
+  speedstats.shownping = speedstats.ping;
+  speedstats.ping = 0;
+}
 
 setInterval(renderLoop, 25);
-setInterval(() => {speedstats.shownping = speedstats.ping; speedstats.ping = 0}, 1000);
+setInterval(updateping, 1000);
