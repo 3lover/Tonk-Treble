@@ -13,7 +13,7 @@ canvas.height = HEIGHT;
 //set up the client information
 let windowType = 0,
     datastore = [],
-    speedstats = {ping: 0, serverspeed: 100}
+    speedstats = {ping: 0, serverspeed: 100, lastpingtime: null}
 
 // setting up some helper functions
 
@@ -56,17 +56,19 @@ document.getElementById("leavelobbybtn").onclick = () => {
 }
 
 socket.on("render", (data) => {
-  datastore = data
+  datastore = data;
+  speedstats.ping = speedstats.lastpingtime;
 })
 
 
 // render what we think the current game state is based on data
 // this is done seperately to avoid some desync and lag issues
 function renderLoop() {
-    let ratio = canvas.height / 10000;
+  let ratio = canvas.height / 10000;
   ctx.clearRect(0, 0, WIDTH, HEIGHT);
   
   ctx.strokeStyle = "black";
+  ctx.fillStyle = "black";
   //move to the right x to make the screen render as a square
   ctx.translate((WIDTH - HEIGHT)/2, 0);
   // the ratio is 10000 = the canvas height for drawing. 0 is center and goes through -5000 to 5000
@@ -144,7 +146,11 @@ function renderLoop() {
   ctx.rect(WIDTH, 0, -WIDTH, HEIGHT);
   ctx.fill();
   
-  // draw our 
+  // draw our ping and server speed
+  ctx.fillStyle = "white";
+  let pingtext = "Ping: " + speedstats.ping;
+  ctx.font = ((WIDTH - HEIGHT) / 2 / 11) + 'px serif';
+  ctx.fillText(pingtext, 0, HEIGHT * 0.2, (WIDTH - HEIGHT)/2);
 }
 
 setInterval(renderLoop, 25)
