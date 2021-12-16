@@ -55,7 +55,17 @@ document.getElementById("leavelobbybtn").onclick = () => {
 
 socket.on("render", (data) => {
   ctx.clearRect(0, 0, WIDTH, HEIGHT);
+  // draw the screen borders in proportion to height to make a square display
+  ctx.beginPath();
+  ctx.fillStyle = "black";
+  ctx.strokeStyle = "grey";
+  ctx.lineWidth = 20;
+  ctx.rect(0, 0, (WIDTH - HEIGHT)/2, HEIGHT);
+  ctx.rect(HEIGHT + (WIDTH - HEIGHT)/2, 0, WIDTH, HEIGHT);
+  ctx.fill();
+  ctx.stroke();
   
+  ctx.strokeStyle = "black";
   //move to the right x to make the screen render as a square
   ctx.translate((WIDTH - HEIGHT)/2, 0);
   // the ratio is 10000 = the canvas height for drawing. 0 is center and goes through -5000 to 5000
@@ -66,7 +76,7 @@ socket.on("render", (data) => {
       // rotate the canvas and move so as 0,0 is the orgin point of the shape being drawn
       ctx.translate(shape.x * ratio, shape.y * ratio);
       ctx.rotate(shape.rotation);
-      ctx.lineWidth = 30;
+      ctx.lineWidth = 20;
       ctx.fillStyle = shape.color;
       
       // draw the guns in accordance the the tank subclass

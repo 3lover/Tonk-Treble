@@ -251,14 +251,14 @@ function mainLoop() {
     }
     
     // go through each client, and send the appropriate data
-    for (let c = 0; c < objects.length; c++) {
-      let client = objects[c];
+    for (let o = 0; o < objects.length; o++) {
+      let client = objects[o];
       if (!client.client) continue;
       let renderdata = [];
       // check if the client is next to a boundary and adjust the cam x and y to stop at the boundary for effect
       client.camx = (client.x + client.vision > c.BASESIZE) ? c.BASESIZE - client.vision : (client.x - client.vision < 0) ? 0 + client.vision : client.x;
       client.camy = (client.y + client.vision > c.BASESIZE) ? c.BASESIZE - client.vision : (client.y - client.vision < 0) ? 0 + client.vision : client.y;
-      if (client.y + client.vision > c.BASESIZE) console.log(client.y, client.vision, C.BASESIZE)
+      //console.log(client.y, client.vision, c.BASESIZE)
       for (let j = 0; j < objects.length; j++) {
         let obj = objects[j];
         if (obj.x < client.camx - client.vision || obj.x > client.camx + client.vision || obj.y < client.camy - client.vision || obj.y > client.camy + client.vision) continue;
