@@ -54,6 +54,7 @@ document.getElementById("leavelobbybtn").onclick = () => {
 }
 
 socket.on("render", (data) => {
+  let ratio = canvas.height / 10000;
   ctx.clearRect(0, 0, WIDTH, HEIGHT);
   
   ctx.strokeStyle = "black";
@@ -62,15 +63,6 @@ socket.on("render", (data) => {
   // the ratio is 10000 = the canvas height for drawing. 0 is center and goes through -5000 to 5000
   for (let i in data) {
     let shape = data[i];
-    let ratio = canvas.height / 10000;
-    // vision bubble
-    if (shape.type == 100) {
-      ctx.beginPath();
-      ctx.fillStyle = "black";
-      ctx.arc(shape.x, shape.y, 8000 * ratio, 0, 2 * Math.PI);
-      ctx.rect(WIDTH, HEIGHT, 0, 0);
-      ctx.fill();
-    }
     // tank
     if (shape.type == 0) {
       // rotate the canvas and move so as 0,0 is the orgin point of the shape being drawn
@@ -131,4 +123,13 @@ socket.on("render", (data) => {
   ctx.rect(HEIGHT + (WIDTH - HEIGHT)/2, 0, WIDTH, HEIGHT);
   ctx.fill();
   ctx.stroke();
+  // hide everything not inside the vision bubble
+  ctx.translate((WIDTH - HEIGHT)/2, 0);
+  let shape = data[data.length - 1];
+  ctx.beginPath();
+  ctx.fillStyle = "black";
+  ctx.arc(shape.x * ratio, shape.y * ratio, 4000 * ratio, 0, 2 * Math.PI);
+  ctx.rect(WIDTH, 0, -WIDTH, HEIGHT);
+  ctx.fill();
+  ctx.translate(-(WIDTH - HEIGHT)/2, 0);
 })
