@@ -297,19 +297,19 @@ function checkSpeed() {
 
 setInterval(mainLoop, 25);
 //setInterval(checkSpeed, 1000);
-for (let r = 0; r < 50; r++) {
+for (let r = 0; r < 10; r++) {
   let direction = Math.random() > 0.5;
     let e = new Entity(null, 0, 2, {
       shape: 4,
-      width: direction ? 10 : 5000,
-      height: direction? 5000 : 10,
+      width: direction ? 1000 : 1000,
+      height: direction? 1000 : 1000,
       color: "black",
       subclass: 4
     });
     e.hitbox = {shape: 4, x: e.x, y: e.y, w: e.width, h: e.height, a: e.rotation};
     checkLocation(e);
     entities.push(e);
-    /*e = new Entity(null, 0, 2, {
+    e = new Entity(null, 0, 2, {
       shape: 0,
       width: 500,
       color: "black",
@@ -317,5 +317,5 @@ for (let r = 0; r < 50; r++) {
     });
     e.hitbox = {shape: 0, x: e.x, y: e.y, r: e.width};
     checkLocation(e);
-    entities.push(e);*/
+    entities.push(e);
 }
