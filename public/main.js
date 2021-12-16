@@ -31,13 +31,11 @@ const socket = io();
 // when a client presses a button send it to the server
 document.onkeydown = (e) => {
   let keycode = e.keyCode || e.which;
-  //socket.emit("message", keycode);
   if (keycode == 13 && windowType == 0) document.getElementById("joinlobbybtn").click();
   else socket.emit("keydown", keycode)
 };
 document.onkeyup = (e) => {
   let keycode = e.keyCode || e.which;
-  socket.emit("message", keycode);
   socket.emit("keyup", keycode)
 };
 

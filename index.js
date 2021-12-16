@@ -109,7 +109,7 @@ io.on("connection", socket => {
     util.log(`${players[room]} remaining in room ${room}`);
     if (players[room] < 1) {
       console.log("Shutting down due to inactivity");
-      process.close();
+      process.exit();
     }
   });
   
@@ -122,7 +122,7 @@ io.on("connection", socket => {
         util.log(`${players[entities[i].lobby]} remaining in room ${entities[i].lobby}`);
         if (players[entities[i].lobby] + 1 < 1) {
           console.log("Shutting down due to inactivity");
-          process.close();
+          process.exit();
         }
         entities.splice(i, 1);
         break;
@@ -175,15 +175,14 @@ function collideCheck(obj1 = {shape: 4, x: 0, y: 0, w: 0, h: 0, a: 0}, obj2 = {s
 
 // choose a random location for an object with in set limits
 function checkLocation(e, avoid = [0, 1, 2, 3]) {
-  for (let i = 0; i < 10000; i++) {
-    //console.log(i)
+  for (let i = 0; i < 100000; i++) {
     e.x = Math.floor(Math.random() * c.BASESIZE);
     e.y = Math.floor(Math.random() * c.BASESIZE);
     e.hitbox.x = e.x;
     e.hitbox.y = e.y;
-    //console.log(JSON.stringify(e.hitbox));
-    if (outOfBounds(e.hitbox))
-      continue;
+    //console.log(JSON.stringify(e.hitbox))
+    if (outOfBounds(e.hitbox)) continue;
+    //else console.log(JSON.stringify(e.hitbox));
     let goodspot = true;
     for (let i = 0; i < entities.length; i++) {
       let other = entities[i];
@@ -195,6 +194,8 @@ function checkLocation(e, avoid = [0, 1, 2, 3]) {
     }
     if (goodspot) break;
   }
+  console.log(JSON.stringify(e.hitbox));
+  console.log(outOfBounds(e.hitbox));
 }
 
 // runs 40 times a second, handles movement, sending render data, and runs collision functions
@@ -295,7 +296,7 @@ for (let r = 0; r < 1; r++) {
       color: "black",
       subclass: 4
     });
-  console.log ("big block tries:")
+  //console.log ("big block tries:")
     e.hitbox = {shape: 4, x: e.x, y: e.y, w: e.width, h: e.height, a: e.rotation};
     checkLocation(e);
     entities.push(e);
