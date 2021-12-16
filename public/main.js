@@ -32,11 +32,11 @@ const socket = io();
 document.onkeydown = (e) => {
   let keycode = e.keyCode || e.which;
   if (keycode == 13 && windowType == 0) document.getElementById("joinlobbybtn").click();
-  else socket.emit("keydown", keycode)
+  else socket.volatile.emit("keydown", keycode)
 };
 document.onkeyup = (e) => {
   let keycode = e.keyCode || e.which;
-  socket.emit("keyup", keycode)
+  socket.volatile.emit("keyup", keycode)
 };
 
 document.getElementById("joinlobbybtn").onclick = () => {
@@ -63,6 +63,10 @@ socket.on("render", (data) => {
   // the ratio is 10000 = the canvas height for drawing. 0 is center and goes through -5000 to 5000
   for (let i in data) {
     let shape = data[i];
+    
+    // ignore specialty data such as vision bubbles
+    if (shape.type == 100) continue;
+    
     // tank
     if (shape.type == 0) {
       // rotate the canvas and move so as 0,0 is the orgin point of the shape being drawn
