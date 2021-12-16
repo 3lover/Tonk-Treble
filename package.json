@@ -8,7 +8,9 @@
   },
   "dependencies": {
     "express": "^4.17.1",
-    "socket.io": "*"
+    "socket.io": "*",
+    "bufferutil": "^4.0.5",
+    "os-utils": "^0.0.14"
   },
   "keywords": [
     "node",

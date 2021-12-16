@@ -1,5 +1,6 @@
 // setup server and ports
 const express = require('express');
+const os = require('os-utils');
 const app = express();
 const server = require('http').createServer(app);
 const io = require('socket.io')(server);
@@ -286,7 +287,14 @@ function mainLoop() {
   }
 }
 
+// speed check loop
+function checkSpeed() {
+  
+}
+
+
 setInterval(mainLoop, 25);
+setInterval(checkSpeed, 1000);
 for (let r = 0; r < 15; r++) {
     let e = new Entity(null, 0, 2, {
       shape: 4,

@@ -62,7 +62,12 @@ socket.on("render", (data) => {
   if (speedstats.lastpingtime == 0) speedstats.lastpingtime = new Date().getTime();
   speedstats.ping = speedstats.ping < newdate - speedstats.lastpingtime ? newdate - speedstats.lastpingtime : speedstats.ping;
   speedstats.lastpingtime = newdate;
-})
+});
+
+// when the speed check loop fires get an update
+socket.on("speedcheck", (speed) => {
+  speedstats.serverspeed = speed;
+});
 
 
 // render what we think the current game state is based on data
@@ -153,10 +158,13 @@ function renderLoop() {
   ctx.fill();
   
   // draw our ping and server speed, but only update every second so not too distracting
-  ctx.fillStyle = speedstats.shownping > 300 ? "red" : "white";
-  let pingtext = "Ping: " + speedstats.shownping;
+  let pingtext = "Ping: " + speedstats.shownping,
+      serverspeedtext = "Server Speed: " + speedstats.serverspeed + "%";
   ctx.font = ((WIDTH - HEIGHT) / 2 / 11) + 'px serif';
+  ctx.fillStyle = speedstats.shownping > 300 ? "red" : "white";
   ctx.fillText(pingtext, 0, HEIGHT * 0.2, (WIDTH - HEIGHT)/2);
+  ctx.fillStyle = speedstats.serverspeed < 90 ? "red" : "white";
+  ctx.fillText(serverspeedtext, 0, HEIGHT * 0.3, (WIDTH - HEIGHT)/2);
 }
 
 // update ping speed display once per second
