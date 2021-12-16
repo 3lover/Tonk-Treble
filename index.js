@@ -174,7 +174,7 @@ function checkLocation(e, avoid = [0, 1, 2, 3]) {
     e.hitbox.x = e.x;
     e.hitbox.y = e.y;
     console.log(JSON.stringify(e.hitbox));
-    if (outOfBounds(e))
+    if (outOfBounds(e.hitbox))
       continue;
     let goodspot = true;
     for (let i = 0; i < entities.length; i++) {
