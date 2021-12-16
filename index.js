@@ -301,8 +301,8 @@ for (let r = 0; r < 50; r++) {
   let direction = Math.random() > 0.5;
     let e = new Entity(null, 0, 2, {
       shape: 4,
-      width: direction ? 10 : 1000,
-      height: direction? 1000 : 10,
+      width: direction ? 10 : 5000,
+      height: direction? 5000 : 10,
       color: "black",
       subclass: 4
     });
