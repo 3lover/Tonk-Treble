@@ -281,7 +281,7 @@ function mainLoop() {
         y: (client.camy - client.y) + 5000,
         color: "black"
       })
-      io.to(client.client).emit("render", renderdata);
+      io.to(client.client).volatile.emit("render", renderdata);
     }
   }
 }

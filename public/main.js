@@ -13,7 +13,7 @@ canvas.height = HEIGHT;
 //set up the client information
 let windowType = 0,
     datastore = [],
-    speedstats = {ping: 0, serverspeed: 100, lastpingtime: null, shownping: 0}
+    speedstats = {ping: 0, serverspeed: 100, lastpingtime: 0, shownping: 0}
 
 // setting up some helper functions
 
@@ -59,7 +59,7 @@ socket.on("render", (data) => {
   if (windowType == 0) return;
   datastore = data;
   let newdate = new Date().getTime();
-  if (!speedstats.lastpingtime)
+  if (speedstats.lastpingtime == 0) speedstats.lastpingtime = new Date().getTime();
   speedstats.ping = speedstats.ping < newdate - speedstats.lastpingtime ? newdate - speedstats.lastpingtime : speedstats.ping;
   speedstats.lastpingtime = newdate;
 })
@@ -148,12 +148,12 @@ function renderLoop() {
   let shape = datastore[datastore.length - 1];
   ctx.beginPath();
   ctx.fillStyle = "black";
-  ctx.arc((WIDTH - HEIGHT)/2 + shape.x * ratio, shape.y * ratio, 4000 * ratio, 0, 2 * Math.PI);
+  ctx.arc((WIDTH - HEIGHT)/2 + shape.x * ratio, shape.y * ratio, 4500 * ratio, 0, 2 * Math.PI);
   ctx.rect(WIDTH, 0, -WIDTH, HEIGHT);
   ctx.fill();
   
   // draw our ping and server speed, but only update every second so not too distracting
-  ctx.fillStyle = speedstats.shownping > 200 ? "red" : "white";
+  ctx.fillStyle = speedstats.shownping > 300 ? "red" : "white";
   let pingtext = "Ping: " + speedstats.shownping;
   ctx.font = ((WIDTH - HEIGHT) / 2 / 11) + 'px serif';
   ctx.fillText(pingtext, 0, HEIGHT * 0.2, (WIDTH - HEIGHT)/2);
