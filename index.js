@@ -175,14 +175,12 @@ function collideCheck(obj1 = {shape: 4, x: 0, y: 0, w: 0, h: 0, a: 0}, obj2 = {s
 
 // choose a random location for an object with in set limits
 function checkLocation(e, avoid = [0, 1, 2, 3]) {
-  for (let i = 0; i < 100000; i++) {
+  for (var i = 0; i < 100000; i++) {
     e.x = Math.floor(Math.random() * c.BASESIZE);
     e.y = Math.floor(Math.random() * c.BASESIZE);
     e.hitbox.x = e.x;
     e.hitbox.y = e.y;
-    //console.log(JSON.stringify(e.hitbox))
     if (outOfBounds(e.hitbox)) continue;
-    //else console.log(JSON.stringify(e.hitbox));
     let goodspot = true;
     for (let i = 0; i < entities.length; i++) {
       let other = entities[i];
@@ -194,8 +192,6 @@ function checkLocation(e, avoid = [0, 1, 2, 3]) {
     }
     if (goodspot) break;
   }
-  console.log(JSON.stringify(e.hitbox));
-  console.log(outOfBounds(e.hitbox));
 }
 
 // runs 40 times a second, handles movement, sending render data, and runs collision functions
@@ -259,6 +255,8 @@ function mainLoop() {
       let client = objects[c];
       if (!client.client) continue;
       let renderdata = [];
+      // check if the client is next to a boundary and adjust the cam x and y to stop at the boundary for effect
+      client.camx = client.x + client.vision > c.BASESIZE  c.BASESIZE ;
       for (let j = 0; j < objects.length; j++) {
         let obj = objects[j];
         if (obj.x < client.x - client.vision || obj.x > client.x + client.vision || obj.y < client.y - client.vision || obj.y > client.y + client.vision) continue;
@@ -279,8 +277,18 @@ function mainLoop() {
 }
 
 setInterval(mainLoop, 25);
-for (let r = 0; r < 1; r++) {
+for (let r = 0; r < 5; r++) {
     let e = new Entity(null, 0, 2, {
+      shape: 4,
+      width: 1000,
+      height: 1000,
+      color: "black",
+      subclass: 4
+    });
+    e.hitbox = {shape: 4, x: e.x, y: e.y, w: e.width, h: e.height, a: e.rotation};
+    checkLocation(e);
+    entities.push(e);
+    e = new Entity(null, 0, 2, {
       shape: 0,
       width: 500,
       color: "black",
@@ -289,17 +297,4 @@ for (let r = 0; r < 1; r++) {
     e.hitbox = {shape: 0, x: e.x, y: e.y, r: e.width};
     checkLocation(e);
     entities.push(e);
-    e = new Entity(null, 0, 2, {
-      shape: 4,
-      width: 18000,
-      height: 18000,
-      color: "black",
-      subclass: 4
-    });
-  //console.log ("big block tries:")
-    e.hitbox = {shape: 4, x: e.x, y: e.y, w: e.width, h: e.height, a: e.rotation};
-    checkLocation(e);
-    entities.push(e);
 }
-
-//console.log("test: " + outOfBounds({shape: 4, x: 8999, y: 10000, w: 18000, h: 18000, a: 0}));
