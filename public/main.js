@@ -55,15 +55,6 @@ document.getElementById("leavelobbybtn").onclick = () => {
 
 socket.on("render", (data) => {
   ctx.clearRect(0, 0, WIDTH, HEIGHT);
-  // draw the screen borders in proportion to height to make a square display
-  ctx.beginPath();
-  ctx.fillStyle = "black";
-  ctx.strokeStyle = "grey";
-  ctx.lineWidth = 20;
-  ctx.rect(0, 0, (WIDTH - HEIGHT)/2, HEIGHT);
-  ctx.rect(HEIGHT + (WIDTH - HEIGHT)/2, 0, WIDTH, HEIGHT);
-  ctx.fill();
-  ctx.stroke();
   
   ctx.strokeStyle = "black";
   //move to the right x to make the screen render as a square
@@ -120,4 +111,14 @@ socket.on("render", (data) => {
   }
   // move the screen back
   ctx.translate(-(WIDTH - HEIGHT)/2, 0);
+  
+  // draw the screen borders in proportion to height to make a square display
+  ctx.beginPath();
+  ctx.fillStyle = "black";
+  ctx.strokeStyle = "grey";
+  ctx.lineWidth = 40;
+  ctx.rect(0, 0, (WIDTH - HEIGHT)/2, HEIGHT);
+  ctx.rect(HEIGHT + (WIDTH - HEIGHT)/2, 0, WIDTH, HEIGHT);
+  ctx.fill();
+  ctx.stroke();
 })

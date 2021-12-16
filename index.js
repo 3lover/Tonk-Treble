@@ -273,6 +273,17 @@ function mainLoop() {
           rotation: obj.rotation + Math.PI
         });
       }
+      // now send the vision bubble effect 
+      renderdata.push({
+        type: 100,
+        subclass: c.VISIONTYPE,
+        x: (client.camx - obj.x) + 5000,
+        y: (client.camy - obj.y) + 5000,
+        width: obj.width,
+        height: obj.height,
+        color: obj.color,
+        rotation: obj.rotation + Math.PI
+      })
       io.to(client.client).emit("render", renderdata);
     }
   }
