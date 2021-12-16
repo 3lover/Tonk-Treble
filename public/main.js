@@ -66,7 +66,7 @@ socket.on("render", (data) => {
 
 // when the speed check loop fires get an update
 socket.on("speedcheck", (speed) => {
-  speedstats.serverspeed = speed;
+  //speedstats.serverspeed = speed;
 });
 
 
@@ -159,12 +159,12 @@ function renderLoop() {
   
   // draw our ping and server speed, but only update every second so not too distracting
   let pingtext = "Ping: " + speedstats.shownping,
-      serverspeedtext = "Server Speed: " + speedstats.serverspeed + "%";
+      serverspeedtext = "Server Usage: " + Math.round(speedstats.serverspeed*100);
   ctx.font = ((WIDTH - HEIGHT) / 2 / 11) + 'px serif';
   ctx.fillStyle = speedstats.shownping > 300 ? "red" : "white";
   ctx.fillText(pingtext, 0, HEIGHT * 0.2, (WIDTH - HEIGHT)/2);
-  ctx.fillStyle = speedstats.serverspeed < 90 ? "red" : "white";
-  ctx.fillText(serverspeedtext, 0, HEIGHT * 0.3, (WIDTH - HEIGHT)/2);
+  //ctx.fillStyle = speedstats.serverspeed > 100 ? "red" : "white";
+  //ctx.fillText(serverspeedtext, 0, HEIGHT * 0.3, (WIDTH - HEIGHT)/2);
 }
 
 // update ping speed display once per second
