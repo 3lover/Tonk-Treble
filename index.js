@@ -107,6 +107,10 @@ io.on("connection", socket => {
       }
     }
     util.log(`${players[room]} remaining in room ${room}`);
+    if (players[room] < 1) {
+      console.log("Shutting down due to inactivity");
+      process.close();
+    }
   });
   
   // when a client disconnects check if they are in a room and if so remove their object
@@ -116,6 +120,10 @@ io.on("connection", socket => {
         players[entities[i].lobby]--;
         socket.leave(entities[i].lobby);
         util.log(`${players[entities[i].lobby]} remaining in room ${entities[i].lobby}`);
+        if (players[entities[i].lobby] + 1 < 1) {
+          console.log("Shutting down due to inactivity");
+          process.close();
+        }
         entities.splice(i, 1);
         break;
       }
@@ -168,12 +176,12 @@ function collideCheck(obj1 = {shape: 4, x: 0, y: 0, w: 0, h: 0, a: 0}, obj2 = {s
 // choose a random location for an object with in set limits
 function checkLocation(e, avoid = [0, 1, 2, 3]) {
   for (let i = 0; i < 10000; i++) {
-    console.log(i)
+    //console.log(i)
     e.x = Math.floor(Math.random() * c.BASESIZE);
     e.y = Math.floor(Math.random() * c.BASESIZE);
     e.hitbox.x = e.x;
     e.hitbox.y = e.y;
-    console.log(JSON.stringify(e.hitbox));
+    //console.log(JSON.stringify(e.hitbox));
     if (outOfBounds(e.hitbox))
       continue;
     let goodspot = true;
@@ -277,8 +285,8 @@ for (let r = 0; r < 1; r++) {
       color: "black",
       subclass: 0
     });
-    checkLocation(e);
     e.hitbox = {shape: 0, x: e.x, y: e.y, r: e.width};
+    checkLocation(e);
     entities.push(e);
     e = new Entity(null, 0, 2, {
       shape: 4,
@@ -288,7 +296,9 @@ for (let r = 0; r < 1; r++) {
       subclass: 4
     });
   console.log ("big block tries:")
-    checkLocation(e);
     e.hitbox = {shape: 4, x: e.x, y: e.y, w: e.width, h: e.height, a: e.rotation};
+    checkLocation(e);
     entities.push(e);
 }
+
+//console.log("test: " + outOfBounds({shape: 4, x: 8999, y: 10000, w: 18000, h: 18000, a: 0}));
