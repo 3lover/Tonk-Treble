@@ -11,7 +11,9 @@ canvas.width = WIDTH;
 canvas.height = HEIGHT;
 
 //set up the client information
-let windowType = 0;
+let windowType = 0,
+    datastore = [],
+    speedstats = {ping: 0, serverspeed: 100}
 
 // setting up some helper functions
 
@@ -54,15 +56,22 @@ document.getElementById("leavelobbybtn").onclick = () => {
 }
 
 socket.on("render", (data) => {
-  let ratio = canvas.height / 10000;
+  datastore = data
+})
+
+
+// render what we think the current game state is based on data
+// this is done seperately to avoid some desync and lag issues
+function renderLoop() {
+    let ratio = canvas.height / 10000;
   ctx.clearRect(0, 0, WIDTH, HEIGHT);
   
   ctx.strokeStyle = "black";
   //move to the right x to make the screen render as a square
   ctx.translate((WIDTH - HEIGHT)/2, 0);
   // the ratio is 10000 = the canvas height for drawing. 0 is center and goes through -5000 to 5000
-  for (let i in data) {
-    let shape = data[i];
+  for (let i in datastore) {
+    let shape = datastore[i];
     
     // ignore specialty data such as vision bubbles
     if (shape.type == 100) continue;
@@ -128,10 +137,14 @@ socket.on("render", (data) => {
   ctx.fill();
   ctx.stroke();
   // hide everything not inside the vision bubble
-  let shape = data[data.length - 1];
+  let shape = datastore[datastore.length - 1];
   ctx.beginPath();
   ctx.fillStyle = "black";
   ctx.arc((WIDTH - HEIGHT)/2 + shape.x * ratio, shape.y * ratio, 4000 * ratio, 0, 2 * Math.PI);
   ctx.rect(WIDTH, 0, -WIDTH, HEIGHT);
   ctx.fill();
-})
+  
+  // draw our 
+}
+
+setInterval(renderLoop, 25)
