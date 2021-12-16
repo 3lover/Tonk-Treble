@@ -32,11 +32,11 @@ const socket = io();
 document.onkeydown = (e) => {
   let keycode = e.keyCode || e.which;
   if (keycode == 13 && windowType == 0) document.getElementById("joinlobbybtn").click();
-  else socket.volatile.emit("keydown", keycode)
+  else socket.emit("keydown", keycode)
 };
 document.onkeyup = (e) => {
   let keycode = e.keyCode || e.which;
-  socket.volatile.emit("keyup", keycode)
+  socket.emit("keyup", keycode)
 };
 
 document.getElementById("joinlobbybtn").onclick = () => {
@@ -124,16 +124,14 @@ socket.on("render", (data) => {
   ctx.strokeStyle = "grey";
   ctx.lineWidth = 40;
   ctx.rect(0, 0, (WIDTH - HEIGHT)/2, HEIGHT);
-  ctx.rect(HEIGHT + (WIDTH - HEIGHT)/2, 0, WIDTH, HEIGHT);
+  ctx.rect(WIDTH, 0, -(WIDTH - HEIGHT)/2, HEIGHT);
   ctx.fill();
   ctx.stroke();
   // hide everything not inside the vision bubble
-  ctx.translate((WIDTH - HEIGHT)/2, 0);
   let shape = data[data.length - 1];
   ctx.beginPath();
   ctx.fillStyle = "black";
-  ctx.arc(shape.x * ratio, shape.y * ratio, 4000 * ratio, 0, 2 * Math.PI);
+  ctx.arc((WIDTH - HEIGHT)/2 + shape.x * ratio, shape.y * ratio, 4000 * ratio, 0, 2 * Math.PI);
   ctx.rect(WIDTH, 0, -WIDTH, HEIGHT);
   ctx.fill();
-  ctx.translate(-(WIDTH - HEIGHT)/2, 0);
 })

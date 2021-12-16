@@ -287,7 +287,7 @@ function mainLoop() {
 }
 
 setInterval(mainLoop, 25);
-for (let r = 0; r < 25; r++) {
+for (let r = 0; r < 15; r++) {
     let e = new Entity(null, 0, 2, {
       shape: 4,
       width: 1000,
