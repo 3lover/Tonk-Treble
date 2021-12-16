@@ -47,7 +47,7 @@ class Entity {
     this.vectors = prop.vectors || [0, 0, 0, 0, 0];
     this.x = prop.x || 0;
     this.y = prop.y || 0;
-    this.vision = prop.vision || 10000;
+    this.vision = prop.vision || 1000;
     this.hitbox = prop.hitbox || {shape: this.shape, x: this.x, y: this.y, w: this.width, h: this.height, a: this.rotation};
   }
 }
@@ -65,7 +65,7 @@ io.on("connection", socket => {
     players[room]++;
     let e = new Entity(socket.id, room, 0, {
       subclass: 0,
-      vision: 30000,
+      vision: 5000,
       host: players[room] == 1
     });
     checkLocation(e);
@@ -256,15 +256,17 @@ function mainLoop() {
       if (!client.client) continue;
       let renderdata = [];
       // check if the client is next to a boundary and adjust the cam x and y to stop at the boundary for effect
-      client.camx = client.x + client.vision > c.BASESIZE  c.BASESIZE ;
+      client.camx = (client.x + client.vision > c.BASESIZE) ? c.BASESIZE - client.vision : (client.x - client.vision < 0) ? 0 + client.vision : client.x;
+      client.camy = (client.y + client.vision > c.BASESIZE) ? c.BASESIZE - client.vision : (client.y - client.vision < 0) ? 0 + client.vision : client.y;
+      if (client.y + client.vision > c.BASESIZE) console.log(client.y, client.vision, C.BASESIZE)
       for (let j = 0; j < objects.length; j++) {
         let obj = objects[j];
-        if (obj.x < client.x - client.vision || obj.x > client.x + client.vision || obj.y < client.y - client.vision || obj.y > client.y + client.vision) continue;
+        if (obj.x < client.camx - client.vision || obj.x > client.camx + client.vision || obj.y < client.camy - client.vision || obj.y > client.camy + client.vision) continue;
         renderdata.push({
           type: obj.type,
           subclass: obj.subclass,
-          x: (client.x - obj.x) + 5000,
-          y: (client.y - obj.y) + 5000,
+          x: (client.camx - obj.x) + 5000,
+          y: (client.camy - obj.y) + 5000,
           width: obj.width,
           height: obj.height,
           color: obj.color,
@@ -277,7 +279,7 @@ function mainLoop() {
 }
 
 setInterval(mainLoop, 25);
-for (let r = 0; r < 5; r++) {
+for (let r = 0; r < 25; r++) {
     let e = new Entity(null, 0, 2, {
       shape: 4,
       width: 1000,
