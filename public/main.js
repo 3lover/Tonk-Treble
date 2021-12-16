@@ -13,7 +13,7 @@ canvas.height = HEIGHT;
 //set up the client information
 let windowType = 0,
     datastore = [],
-    speedstats = {ping: 0, serverspeed: 100, lastpingtime: null}
+    speedstats = {ping: 0, serverspeed: 100, lastpingtime: null, shownping: 0}
 
 // setting up some helper functions
 
@@ -57,7 +57,9 @@ document.getElementById("leavelobbybtn").onclick = () => {
 
 socket.on("render", (data) => {
   datastore = data;
-  speedstats.ping = speedstats.lastpingtime;
+  let newdate = new Date().getTime();
+  speedstats.ping = speedstats.ping < newdate - speedstats.lastpingtime ? newdate - speedstats.lastpingtime : speedstats.ping;
+  speedstats.lastpingtime = newdate;
 })
 
 
@@ -146,11 +148,14 @@ function renderLoop() {
   ctx.rect(WIDTH, 0, -WIDTH, HEIGHT);
   ctx.fill();
   
-  // draw our ping and server speed
+  // draw our ping and server speed, but only update every second so not too distracting
   ctx.fillStyle = "white";
-  let pingtext = "Ping: " + speedstats.ping;
+  let pingtext = "Ping: " + speedstats.shownping;
   ctx.font = ((WIDTH - HEIGHT) / 2 / 11) + 'px serif';
   ctx.fillText(pingtext, 0, HEIGHT * 0.2, (WIDTH - HEIGHT)/2);
 }
 
-setInterval(renderLoop, 25)
+// update ping speed display once per second
+
+setInterval(renderLoop, 25);
+setInterval(() => {speedstats.shownping = speedstats.ping; speedstats.ping = 0}, 1000);
